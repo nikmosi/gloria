@@ -1,0 +1,7 @@
+[project]
+name = "gloria-stalker"
+version = "0.1.0"
+description = "project to collect messages from gloria-bot on jeensoff.ttv"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
