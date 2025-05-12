@@ -1,15 +1,18 @@
 from __future__ import annotations
+
 import asyncio
 from functools import wraps
 from typing import Awaitable, Callable, cast
-from loguru import logger
 
+from loguru import logger
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
+from rich import print
+from rich.logging import RichHandler
+from twitchAPI.chat import Chat, ChatEvent, ChatMessage, EventData
 from twitchAPI.oauth import UserAuthenticator
 from twitchAPI.twitch import Twitch
 from twitchAPI.type import AuthScope
-from twitchAPI.chat import Chat, ChatEvent, ChatMessage, EventData
 
 
 class Settings(BaseSettings):
@@ -35,7 +38,9 @@ def on_ready(target_channel: str) -> Callable[[EventData], Awaitable[None]]:
 
 async def on_message(msg: ChatMessage):
     name = msg.room if msg.room is None else msg.room.name
-    print(f"in {name}, {msg.user.name} said: {msg.text}")
+    logger.info(
+        f"in [bold magenta]{name}[/bold magenta], [bold yellow]{msg.user.name}[/bold yellow] said: {msg.text}"
+    )
 
 
 async def authenticate(settings: Settings) -> Twitch:
@@ -51,6 +56,9 @@ async def authenticate(settings: Settings) -> Twitch:
 
 
 async def main():
+    logger.configure(
+        handlers=[{"sink": RichHandler(markup=True), "format": "{message}"}]
+    )
     logger.debug("Starting bot")
     settings = Settings()
     twitch = await authenticate(settings)
