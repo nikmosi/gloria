@@ -29,7 +29,10 @@
             ruff-format.enable = true;
             ruff.enable = true;
             trim-trailing-whitespace.enable = true;
-
+            mypy = {
+              enable = true;
+              stages = [ "pre-push" ];
+            };
             trufflehog = {
               enable = true;
               stages = [ "pre-push" ];
