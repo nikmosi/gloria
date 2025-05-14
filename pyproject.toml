@@ -10,3 +10,8 @@ dependencies = [
     "rich>=14.0.0",
     "twitchapi>=4.4.0",
 ]
+
+[tool.pytest.ini_options]
+pythonpath = [
+  "src"
+]
