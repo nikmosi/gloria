@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from models.Statistic import Rank, StatisticMessage
+from models.statistic import Rank, StatisticMessage
 
 
 def test_static_message():
