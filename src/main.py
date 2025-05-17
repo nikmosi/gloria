@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 import asyncio
+from collections.abc import Awaitable, Callable
 from functools import wraps
-from typing import Awaitable, Callable, cast
+from typing import cast
 
 from loguru import logger
 from pydantic import Field
@@ -39,7 +40,7 @@ def on_ready(target_channel: str) -> Callable[[EventData], Awaitable[None]]:
 async def on_message(msg: ChatMessage):
     name = msg.room if msg.room is None else msg.room.name
     logger.info(
-        f"in [bold magenta]{name}[/bold magenta], [bold yellow]{msg.user.name}[/bold yellow] said: {msg.text}"
+        f"in [bold magenta]{name}[/], [bold yellow]{msg.user.name}[/] said: {msg.text}"
     )
 
 
