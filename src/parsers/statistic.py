@@ -2,7 +2,7 @@ import re
 from abc import ABC, abstractmethod
 
 from models.message import Message
-from models.statistic import StatisticMessage
+from models.statistic import Rank, StatisticMessage
 
 
 class StaticticParser(ABC):
@@ -20,4 +20,22 @@ class RegexParser(StaticticParser):
     )
 
     def parse(self, msg: Message) -> StatisticMessage | None:
-        pass
+        match = self.pattern.search(msg.text)
+
+        if not match:
+            return None
+
+        data = match.groupdict()
+
+        return StatisticMessage(
+            date=msg.date,
+            nickname=data["nikname"],
+            points=int(data["points"].replace(" ", "")),
+            hours=float(data["hours"].replace(" ", "").replace(",", ".")),
+            position=int(data["top"]),
+            rank=Rank(
+                name=data["rankname"],
+                left=int(data["rankposition"]),
+                right=int(data["totalrank"]),
+            ),
+        )
