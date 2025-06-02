@@ -9,7 +9,7 @@ def test_regex_parser():
         "nikmosi, у вас 329234 очков опыта, провел(а) "
         "на стримах 2 594,75 часов. В топе 10, ты боб[12/20]."
     )
-    msg = RawMessage(text=text, date=datetime.datetime.now())
+    msg = RawMessage(text=text, date=datetime.datetime.now(), author="nik")
 
     parser = RegexParser()
     result = parser.parse(msg)

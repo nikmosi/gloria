@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 
-from twitchAPI.chat import ChatMessage
+from domain.models.message import RawMessage
 
 
 class MessageFilter(ABC):
     @abstractmethod
-    def is_match(self, msg: ChatMessage) -> bool:
+    def is_match(self, msg: RawMessage) -> bool:
         pass
