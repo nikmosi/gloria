@@ -57,8 +57,10 @@ async def main():
         logger.debug("[bold red]press Ctrl-C to stop...[/]")
         await processor.run()
     finally:
+        logger.debug("[bold red]closing resources[/]")
         twitch_client.stop()
         await twitch.close()
+        logger.info("closed resources")
 
 
 if __name__ == "__main__":
