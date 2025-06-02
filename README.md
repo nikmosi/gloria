@@ -6,8 +6,8 @@ It's twitch bot. Aim is collect messages from gloria-bot with viewer statistic.
 
 ## Message
 - [x] Read
-- [ ] Collect
-- [ ] Parse
+- [x] Collect
+- [x] Parse
 - [ ] Save
 
 ## UI
