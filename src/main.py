@@ -6,24 +6,12 @@ from functools import wraps
 from typing import cast
 
 from loguru import logger
-from pydantic import Field
-from pydantic_settings import BaseSettings, SettingsConfigDict
 from rich.logging import RichHandler
 from twitchAPI.chat import Chat, ChatEvent, ChatMessage, EventData
 from twitchAPI.oauth import UserAuthenticator
 from twitchAPI.twitch import Twitch
-from twitchAPI.type import AuthScope
 
-
-class Settings(BaseSettings):
-    model_config = SettingsConfigDict(
-        env_file=[".env.sample", ".env"], env_prefix="gloria_", case_sensitive=False
-    )
-
-    client_id: str = Field(default="...")
-    client_secret: str = Field(default="...")
-    target_chanels: str = "jeensoff"
-    user_scope: list[AuthScope] = [AuthScope.CHAT_READ]
+from config import Settings, settings
 
 
 def on_ready(target_channel: str) -> Callable[[EventData], Awaitable[None]]:
@@ -60,7 +48,6 @@ async def main():
         handlers=[{"sink": RichHandler(markup=True), "format": "{message}"}]
     )
     logger.debug("Starting bot")
-    settings = Settings()
     twitch = await authenticate(settings)
 
     logger.debug("Creating chat")
