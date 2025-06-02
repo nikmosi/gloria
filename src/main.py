@@ -6,10 +6,16 @@ from functools import wraps
 
 from loguru import logger
 from rich.logging import RichHandler
-from twitchAPI.chat import Chat, ChatEvent, ChatMessage, EventData
+from twitchAPI.chat import EventData
 
 from config import settings
+from infra.filters.name_filter import NameMessageFilter
+from infra.parsers.regex_parser import RegexParser
+from infra.repository.mock_repository import MockRepository
 from infra.twitch.twitch_auth import authenticate
+from infra.twitch.twitch_client import TwichClient
+from infra.twitch.twitch_source import TwitchMessageSource
+from processor import MessageProcessor
 
 
 def on_ready(target_channel: str) -> Callable[[EventData], Awaitable[None]]:
@@ -22,13 +28,6 @@ def on_ready(target_channel: str) -> Callable[[EventData], Awaitable[None]]:
     return wrapped
 
 
-async def on_message(msg: ChatMessage):
-    name = msg.room if msg.room is None else msg.room.name
-    logger.info(
-        f"in [bold magenta]{name}[/], [bold yellow]{msg.user.name}[/] said: {msg.text}"
-    )
-
-
 async def main():
     logger.configure(
         handlers=[{"sink": RichHandler(markup=True), "format": "{message}"}]
@@ -37,18 +36,28 @@ async def main():
     twitch = await authenticate(settings)
 
     logger.debug("Creating chat")
-    chat = await Chat(twitch)
-    chat.register_event(ChatEvent.READY, on_ready(settings.target_chanels))
-    chat.register_event(ChatEvent.MESSAGE, on_message)
-    chat.start()
+    twitch_client = TwichClient(twitch)
+    twitch_source = TwitchMessageSource(twitch_client)
+    name_filter = NameMessageFilter(["gloria_bot", "nikmosi"])
+    repository = MockRepository()
+
+    twitch_client.add_on_ready_handler(on_ready(settings.target_chanels))
+
+    processor = MessageProcessor(
+        twitch_source,
+        name_filter,
+        RegexParser(),
+        repository,
+    )
+
+    twitch_client.start()
     logger.info("Chat created")
 
     try:
         logger.debug("[bold red]press Ctrl-C to stop...[/]")
-        while True:
-            await asyncio.sleep(1)
+        await processor.run()
     finally:
-        chat.stop()
+        twitch_client.stop()
         await twitch.close()
 
 
