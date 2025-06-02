@@ -8,7 +8,6 @@ from typing import cast
 from loguru import logger
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
-from rich import print
 from rich.logging import RichHandler
 from twitchAPI.chat import Chat, ChatEvent, ChatMessage, EventData
 from twitchAPI.oauth import UserAuthenticator
@@ -32,7 +31,7 @@ def on_ready(target_channel: str) -> Callable[[EventData], Awaitable[None]]:
     async def wrapped(ready_event: EventData) -> None:
         logger.debug("Bot is ready for work, joining channels")
         await ready_event.chat.join_room(target_channel)
-        logger.info("ready done")
+        logger.info(f"joined to [bold magenta]{target_channel}[/]")
 
     return wrapped
 
@@ -72,15 +71,16 @@ async def main():
     logger.info("Chat created")
 
     try:
-        input("press any key to stop...\n")
+        logger.debug("[bold red]press Ctrl-C to stop...[/]")
+        while True:
+            await asyncio.sleep(1)
     finally:
         chat.stop()
         await twitch.close()
-    logger.info("end")
 
 
 if __name__ == "__main__":
     try:
         asyncio.run(main())
     except KeyboardInterrupt:
-        print("got Ctrl-C")
+        logger.info("got Ctrl-C")
