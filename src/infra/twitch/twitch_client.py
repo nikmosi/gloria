@@ -14,7 +14,8 @@ class TwichClient:
     def add_on_ready_handler(self, handler: Callable[[ChatMessage], Awaitable[None]]):
         self.chat.register_event(ChatEvent.READY, handler)
 
-    def start(self) -> None:
+    async def start(self):
+        await self.chat
         self.chat.start()
 
     def stop(self) -> None:

@@ -50,7 +50,7 @@ async def main():
         repository,
     )
 
-    twitch_client.start()
+    await twitch_client.start()
     logger.info("Chat created")
 
     try:
