@@ -9,7 +9,7 @@ class Rank(BaseModel):
     right: int
 
 
-class StatisticMessage(BaseModel):
+class ParsedMessage(BaseModel):
     date: datetime
     nickname: str
     points: int

@@ -1,13 +1,8 @@
-from abc import ABC, abstractmethod
 from collections.abc import Iterable
 
 from twitchAPI.chat import ChatMessage
 
-
-class MessageFilter(ABC):
-    @abstractmethod
-    def is_match(self, msg: ChatMessage) -> bool:
-        pass
+from domain import MessageFilter
 
 
 class NameMessageFilter(MessageFilter):

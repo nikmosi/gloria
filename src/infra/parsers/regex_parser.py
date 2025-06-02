@@ -1,17 +1,10 @@
 import re
-from abc import ABC, abstractmethod
 
-from models.message import Message
-from models.statistic import Rank, StatisticMessage
-
-
-class StaticticParser(ABC):
-    @abstractmethod
-    def parse(self, msg: Message) -> StatisticMessage | None: ...
+from domain import MessageParser
+from domain.models import ParsedMessage, Rank, RawMessage
 
 
-class RegexParser(StaticticParser):
-    # TODO: implement methods
+class RegexParser(MessageParser):
     pattern: re.Pattern[str] = re.compile(
         r"(?P<nikname>\w+),\sу вас\s"
         r"(?P<points>[\d\s]+)\sочков опыта, провел\(а\) на стримах\s"
@@ -19,7 +12,7 @@ class RegexParser(StaticticParser):
         r"(?P<rankname>\w+)\[(?P<rankposition>\d+)/(?P<totalrank>\d+)\]"
     )
 
-    def parse(self, msg: Message) -> StatisticMessage | None:
+    def parse(self, msg: RawMessage) -> ParsedMessage | None:
         match = self.pattern.search(msg.text)
 
         if not match:
@@ -27,7 +20,7 @@ class RegexParser(StaticticParser):
 
         data = match.groupdict()
 
-        return StatisticMessage(
+        return ParsedMessage(
             date=msg.date,
             nickname=data["nikname"],
             points=int(data["points"].replace(" ", "")),

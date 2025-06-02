@@ -1,7 +1,7 @@
 import datetime
 
-from models.message import Message
-from parsers.statistic import RegexParser
+from domain.models import RawMessage
+from infra.parsers import RegexParser
 
 
 def test_regex_parser():
@@ -9,7 +9,7 @@ def test_regex_parser():
         "nikmosi, у вас 329234 очков опыта, провел(а) "
         "на стримах 2 594,75 часов. В топе 10, ты боб[12/20]."
     )
-    msg = Message(text=text, date=datetime.datetime.now())
+    msg = RawMessage(text=text, date=datetime.datetime.now())
 
     parser = RegexParser()
     result = parser.parse(msg)

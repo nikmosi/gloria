@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from models.statistic import Rank, StatisticMessage
+from domain.models import ParsedMessage, Rank
 
 
 def test_static_message():
@@ -11,7 +11,7 @@ def test_static_message():
     position: int = 20
     rank: Rank = Rank(name="bob", left=11, right=20)
 
-    message = StatisticMessage(
+    message = ParsedMessage(
         date=date,
         nickname=nickname,
         points=points,
