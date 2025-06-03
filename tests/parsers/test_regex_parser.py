@@ -4,7 +4,7 @@ from domain.models import RawMessage
 from infra.parsers import RegexParser
 
 
-def test_regex_parser():
+def test_regex_parser() -> None:
     text = (
         "nikmosi, у вас 329234 очков опыта, провел(а) "
         "на стримах 2 594,75 часов. В топе 10, ты боб[12/20]."

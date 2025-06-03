@@ -8,9 +8,8 @@ from twitchAPI.chat import ChatMessage
 
 from domain import MessageSource
 from domain.models import RawMessage
-
-from .twitch_client import TwichClient
-from .twitch_converter import convert_message
+from infra.twitch.twitch_client import TwichClient
+from infra.twitch.twitch_converter import convert_message
 
 
 class TwitchMessageSource(MessageSource):

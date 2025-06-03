@@ -28,7 +28,7 @@ def on_ready(target_channel: str) -> Callable[[EventData], Awaitable[None]]:
     return wrapped
 
 
-async def main():
+async def main() -> None:
     logger.configure(
         handlers=[{"sink": RichHandler(markup=True), "format": "{message}"}]
     )
@@ -36,12 +36,12 @@ async def main():
     twitch = await authenticate(settings)
 
     logger.debug("Creating chat")
-    twitch_client = TwichClient(twitch)
-    twitch_source = TwitchMessageSource(twitch_client)
+    client = TwichClient(twitch)
+    twitch_source = TwitchMessageSource(client)
     name_filter = NameMessageFilter(["gloria_bot", "nikmosi"])
     repository = MockRepository()
 
-    twitch_client.add_on_ready_handler(on_ready(settings.target_chanels))
+    client.add_on_ready_handler(on_ready(settings.target_chanels))
 
     processor = MessageProcessor(
         twitch_source,
@@ -50,7 +50,7 @@ async def main():
         repository,
     )
 
-    await twitch_client.start()
+    await client.start()
     logger.info("Chat created")
 
     try:
@@ -58,8 +58,8 @@ async def main():
         await processor.run()
     finally:
         logger.debug("[bold red]closing resources[/]")
-        twitch_client.stop()
-        await twitch.close()
+        client.stop()
+        await twitch.close()  # type: ignore[no-untyped-call]
         logger.info("closed resources")
 
 

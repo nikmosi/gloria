@@ -52,6 +52,10 @@
             buildInputs = self.checks.${system}.pre-commit-check.enabledPackages ++ [
               pkgs.python3
               pkgs.uv
+              pkgs.python312Packages.loguru
+              pkgs.python312Packages.pydantic-settings
+              pkgs.python312Packages.rich
+              pkgs.python312Packages.twitchapi
             ];
           };
         }

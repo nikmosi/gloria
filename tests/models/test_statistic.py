@@ -3,7 +3,7 @@ from datetime import datetime
 from domain.models import ParsedMessage, Rank
 
 
-def test_static_message():
+def test_static_message() -> None:
     date: datetime = datetime.now()
     nickname: str = "nikmosi"
     points: int = 10
@@ -28,7 +28,7 @@ def test_static_message():
     assert message.rank == rank
 
 
-def test_rank():
+def test_rank() -> None:
     name = "bob"
     left = 11
     right = 20

@@ -9,7 +9,8 @@ from config import Settings
 
 async def authenticate(settings: Settings) -> Twitch:
     logger.debug("Authenticate start")
-    twitch = await Twitch(app_id=settings.client_id, app_secret=settings.client_secret)
+    twitch = Twitch(app_id=settings.client_id, app_secret=settings.client_secret)
+    await twitch
     auth = UserAuthenticator(twitch, settings.user_scope)
     token, refresh_token = cast(tuple[str, str], await auth.authenticate())
 
