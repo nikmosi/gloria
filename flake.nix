@@ -22,6 +22,7 @@
           src = ./.;
           hooks = {
             check-added-large-files.enable = true;
+            typos.enable = true;
             check-yaml.enable = true;
             convco.enable = true;
             end-of-file-fixer.enable = true;
