@@ -3,6 +3,8 @@ services:
     build:
       context: ./collector
       dockerfile: dockerfile
+    ports:
+      - 8000:8000
     environment:
       - PYTHONUNBUFFERED=1
-    restart: unless-stopped
+      - TERM=xterm
