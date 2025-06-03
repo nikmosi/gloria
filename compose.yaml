@@ -1,0 +1,8 @@
+services:
+  collector:
+    build:
+      context: ./collector
+      dockerfile: dockerfile
+    environment:
+      - PYTHONUNBUFFERED=1
+    restart: unless-stopped
