@@ -10,7 +10,7 @@ class Settings(BaseSettings):
 
     client_id: str = Field(default="...")
     client_secret: str = Field(default="...")
-    target_chanels: str = "jeensoff"
+    target_channels: str = "jeensoff"
     user_scope: list[AuthScope] = [AuthScope.CHAT_READ]
 
 

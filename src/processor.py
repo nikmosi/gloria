@@ -20,7 +20,7 @@ class MessageProcessor:
         self.repository: MessageRepository = repository
 
     async def run(self) -> None:
-        logger.debug("start runing")
+        logger.debug("start running")
         while True:
             msg = await self.source.receive()
             if not self.filter_.is_match(msg):

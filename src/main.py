@@ -41,7 +41,7 @@ async def main() -> None:
     name_filter = NameMessageFilter(["gloria_bot", "nikmosi"])
     repository = MockRepository()
 
-    client.add_on_ready_handler(on_ready(settings.target_chanels))
+    client.add_on_ready_handler(on_ready(settings.target_channels))
 
     processor = MessageProcessor(
         twitch_source,
