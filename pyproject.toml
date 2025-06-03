@@ -32,6 +32,11 @@ explicit_package_bases = true
 mypy_path = ["src"]
 strict = true
 
+show_error_codes = true
+pretty = true
+color_output = true
+incremental = true
+
 [tool.ruff]
 line-length = 88
 target-version = "py311"
