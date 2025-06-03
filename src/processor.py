@@ -1,3 +1,5 @@
+from loguru import logger
+
 from domain.message_filter import MessageFilter
 from domain.message_parser import MessageParser
 from domain.message_source import MessageSource
@@ -18,6 +20,7 @@ class MessageProcessor:
         self.repository: MessageRepository = repository
 
     async def run(self) -> None:
+        logger.debug("start runing")
         while True:
             msg = await self.source.receive()
             if not self.filter_.is_match(msg):
