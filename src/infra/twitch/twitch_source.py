@@ -20,7 +20,7 @@ class TwitchMessageSource(MessageSource):
 
         twitch_client.add_message_handler(self.on_message)
 
-    async def _put_message(self, msg: ChatMessage):
+    async def _put_message(self, msg: ChatMessage) -> None:
         name = msg.room if msg.room is None else msg.room.name
         logger.info(
             f"in [bold magenta]{name}[/], [bold yellow]{msg.user.name}[/] said:"
