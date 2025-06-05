@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import shutil
 from collections.abc import Awaitable, Callable
 from functools import wraps
 
@@ -30,11 +31,12 @@ def on_ready(target_channel: str) -> Callable[[EventData], Awaitable[None]]:
 
 
 async def main() -> None:
+    terminal_width = shutil.get_terminal_size((220, 20)).columns
     logger.configure(
         handlers=[
             {
                 "sink": RichHandler(
-                    console=Console(force_terminal=True),
+                    console=Console(force_terminal=True, width=terminal_width),
                     markup=True,
                     rich_tracebacks=True,
                 ),
