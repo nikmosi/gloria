@@ -5,6 +5,8 @@ services:
       context: ./collector
       dockerfile: dockerfile
     container_name: gloria_collector
+    env_file:
+      - ./collector/.env
     environment:
       - PYTHONUNBUFFERED=1
       - TERM=xterm
