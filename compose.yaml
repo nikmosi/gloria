@@ -4,6 +4,7 @@ services:
     build:
       context: ./collector
       dockerfile: dockerfile
+    container_name: gloria_collector
     ports:
       - 8000:8000
     environment:
