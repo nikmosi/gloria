@@ -5,6 +5,7 @@ from collections.abc import Awaitable, Callable
 from functools import wraps
 
 from loguru import logger
+from rich.console import Console
 from rich.logging import RichHandler
 from twitchAPI.chat import EventData
 
@@ -30,7 +31,16 @@ def on_ready(target_channel: str) -> Callable[[EventData], Awaitable[None]]:
 
 async def main() -> None:
     logger.configure(
-        handlers=[{"sink": RichHandler(markup=True), "format": "{message}"}]
+        handlers=[
+            {
+                "sink": RichHandler(
+                    console=Console(force_terminal=True),
+                    markup=True,
+                    rich_tracebacks=True,
+                ),
+                "format": "{message}",
+            }
+        ]
     )
     logger.debug("Starting bot")
     twitch = await authenticate(settings)
