@@ -1,17 +1,15 @@
 from __future__ import annotations
 
 import asyncio
-import shutil
 from collections.abc import Awaitable, Callable
 from functools import wraps
 
 from loguru import logger
-from rich.console import Console
-from rich.logging import RichHandler
 from twitchAPI.chat import EventData
 
 from config import settings
 from infra.filters.name_filter import NameMessageFilter
+from infra.logging import setup_logger
 from infra.parsers.regex_parser import RegexParser
 from infra.repository.mock_repository import MockRepository
 from infra.twitch.twitch_auth import authenticate
@@ -31,19 +29,7 @@ def on_ready(target_channel: str) -> Callable[[EventData], Awaitable[None]]:
 
 
 async def main() -> None:
-    terminal_width = shutil.get_terminal_size((220, 20)).columns
-    logger.configure(
-        handlers=[
-            {
-                "sink": RichHandler(
-                    console=Console(force_terminal=True, width=terminal_width),
-                    markup=True,
-                    rich_tracebacks=True,
-                ),
-                "format": "{message}",
-            }
-        ]
-    )
+    setup_logger()
     logger.debug("Starting bot")
     twitch = await authenticate(settings)
 
