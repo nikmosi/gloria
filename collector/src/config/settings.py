@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     target_channels: str = "jeensoff"
     user_scope: list[AuthScope] = [AuthScope.CHAT_READ]
 
-    callback_url: str = "http://localhost:8000/login/confirm"
+    callback_url: str = "http://localhost/login/confirm"
     port: int = 8000
 
 
