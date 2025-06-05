@@ -23,7 +23,7 @@ services:
     networks:
       - db_net
     volumes:
-      - ./pgdata:/var/lib/postgresql/data/pgdata
+      - ./.var/pgdata:/var/lib/postgresql/data/pgdata
     deploy:
       resources:
         limits:
@@ -58,7 +58,7 @@ services:
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
-      - pgadmin:/var/lib/pgadmin
+      - ./.var/pgadmin:/var/lib/pgadmin
     ports:
       - "${PGADMIN_PORT:-5050}:80"
     networks:
@@ -72,4 +72,3 @@ networks:
 volumes:
   pgadmin:
   pgdata:
-    driver: local
