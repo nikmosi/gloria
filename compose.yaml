@@ -12,6 +12,7 @@ services:
       - TERM=xterm
     networks:
       - db_net
+      - app_net
 
   postgres:
     image: postgres:latest
@@ -64,6 +65,7 @@ services:
       - "${PGADMIN_PORT:-5050}:80"
     networks:
       - db_net
+      - pgadmin_net
     restart: unless-stopped
 
   nginx:
@@ -75,7 +77,9 @@ services:
       - '443:443' # Public HTTPS Port
       - '81:81' # Admin Web Port
     networks:
-      - db_net
+      - npm_db_net
+      - app_net
+      - pgadmin_net
     environment:
       # Postgres parameters:
       DB_POSTGRES_HOST: 'npm_db'
@@ -98,7 +102,7 @@ services:
       POSTGRES_PASSWORD: 'npmpass'
       POSTGRES_DB: 'npm'
     networks:
-      - db_net
+      - npm_db_net
     healthcheck:
       test:
         [
@@ -110,6 +114,9 @@ services:
 
 networks:
   db_net:
+  app_net:
+  npm_db_net:
+  pgadmin_net:
 
 
 volumes:
