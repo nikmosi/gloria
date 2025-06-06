@@ -33,6 +33,7 @@
             mypy = {
               enable = true;
               stages = [ "pre-push" ];
+              entry = "cd ./collector/; mypy .";
             };
             trufflehog = {
               enable = true;
@@ -54,7 +55,9 @@
               pkgs.python3
               pkgs.uv
               pkgs.python312Packages.loguru
+              pkgs.python312Packages.litestar
               pkgs.python312Packages.pydantic-settings
+              pkgs.python312Packages.uvicorn
               pkgs.python312Packages.rich
               pkgs.python312Packages.twitchapi
             ];
