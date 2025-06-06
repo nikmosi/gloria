@@ -35,6 +35,12 @@
               stages = [ "pre-push" ];
               entry = "cd ./collector/; mypy .";
             };
+            ty = {
+              enable = true;
+              name = "ty check";
+              entry = "uvx ty check";
+              types = [ "python" ];
+            };
             trufflehog = {
               enable = true;
               stages = [ "pre-push" ];
