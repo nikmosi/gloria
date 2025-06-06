@@ -33,6 +33,7 @@ check_untyped_defs = true
 explicit_package_bases = true
 mypy_path = ["src"]
 strict = true
+enable_incomplete_feature = ["NewGenericSyntax"]
 
 show_error_codes = true
 pretty = true
