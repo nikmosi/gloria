@@ -33,7 +33,7 @@
             mypy = {
               enable = true;
               stages = [ "pre-push" ];
-              entry = "cd ./collector/; mypy .";
+              entry = "sh -c 'cd ./collector && exec mypy .'";
             };
             ty = {
               enable = true;
