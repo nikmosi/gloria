@@ -1,5 +1,3 @@
-from typing import cast
-
 from litestar import Litestar
 from litestar.di import Provide
 from loguru import logger
@@ -16,7 +14,9 @@ from .services import AuthService
 
 async def authenticate(settings: Settings) -> Twitch:
     logger.debug("authenticate starting")
-    twitch = await Twitch(app_id=settings.client_id, app_secret=settings.client_secret)
+    twitch: Twitch = await Twitch(
+        app_id=settings.client_id, app_secret=settings.client_secret
+    )
     auth = UserAuthenticator(
         twitch, scopes=settings.user_scope, url=settings.callback_url.unicode_string()
     )
@@ -36,4 +36,4 @@ async def authenticate(settings: Settings) -> Twitch:
     await server.serve()
 
     logger.info("authenticate [bold green]complete[/]")
-    return cast(Twitch, twitch)
+    return twitch
