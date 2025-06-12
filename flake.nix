@@ -38,7 +38,7 @@
             ty = {
               enable = true;
               name = "ty check";
-              entry = "uvx ty check";
+              entry = "sh -c 'cd ./collector && uvx ty check'";
               types = [ "python" ];
             };
             trufflehog = {
