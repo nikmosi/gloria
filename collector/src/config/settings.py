@@ -1,4 +1,5 @@
 from pydantic import Field
+from pydantic_core import Url
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from twitchAPI.type import AuthScope
 
@@ -13,7 +14,7 @@ class Settings(BaseSettings):
     target_channels: str = "jeensoff"
     user_scope: list[AuthScope] = [AuthScope.CHAT_READ]
 
-    callback_url: str = "http://localhost/login/confirm"
+    callback_url: Url = Url("http://localhost/login/confirm")
     port: int = 8000
 
 

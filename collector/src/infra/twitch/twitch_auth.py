@@ -18,7 +18,7 @@ async def authenticate(settings: Settings) -> Twitch:
     logger.debug("authenticate starting")
     twitch = await Twitch(app_id=settings.client_id, app_secret=settings.client_secret)
     auth = UserAuthenticator(
-        twitch, scopes=settings.user_scope, url=settings.callback_url
+        twitch, scopes=settings.user_scope, url=settings.callback_url.unicode_string()
     )
 
     auth_service = AuthService(settings.user_scope, auth, twitch)
