@@ -1,4 +1,4 @@
-from pydantic import Field
+from pydantic import Field, PostgresDsn
 from pydantic_core import Url
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from twitchAPI.type import AuthScope
@@ -16,6 +16,8 @@ class Settings(BaseSettings):
 
     callback_url: Url = Url("http://localhost/login/confirm")
     port: int = 8000
+
+    database: PostgresDsn = PostgresDsn("postgresql://user:123@postgres:5432/collector")
 
 
 settings = Settings()
