@@ -1,12 +1,27 @@
 import asyncio
+import sys
 from logging.config import fileConfig
+from pathlib import Path
 
 from alembic import context
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
+
+def find_project_root(start: Path = Path(__file__)) -> Path:
+    current = start.resolve()
+    for parent in [current] + list(current.parents):
+        if (parent / "pyproject.toml").is_file():
+            return parent
+    raise FileNotFoundError("pyproject.toml not found in any parent directories.")
+
+
+project_root = find_project_root() / "src"
+sys.path.insert(0, str(project_root))
+
 from config import settings
+from db.models.base import Base
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -22,7 +37,7 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-target_metadata = None
+target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
