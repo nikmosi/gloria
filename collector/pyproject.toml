@@ -44,3 +44,6 @@ incremental = true
 line-length = 88
 target-version = "py311"
 select = ["E", "F", "B", "I", "N", "UP", "PT", "T20"]
+
+[tool.ty.src]
+root = "./src"
