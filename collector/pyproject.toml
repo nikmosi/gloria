@@ -45,6 +45,8 @@ incremental = true
 [tool.ruff]
 line-length = 88
 target-version = "py311"
+
+[tool.ruff.lint]
 select = ["E", "F", "B", "I", "N", "UP", "PT", "T20"]
 
 [tool.ty.src]
