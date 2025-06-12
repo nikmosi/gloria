@@ -17,7 +17,9 @@ class Settings(BaseSettings):
     callback_url: Url = Url("http://localhost/login/confirm")
     port: int = 8000
 
-    database: PostgresDsn = PostgresDsn("postgresql://user:123@postgres:5432/collector")
+    database: PostgresDsn = PostgresDsn(
+        "postgresql+asyncpg://user:123@postgres:5432/collector"
+    )
 
 
 settings = Settings()
