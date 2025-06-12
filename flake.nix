@@ -33,7 +33,7 @@
             mypy = {
               enable = true;
               stages = [ "pre-push" ];
-              entry = "sh -c 'cd ./collector && exec mypy .'";
+              entry = "sh -c 'cd ./collector && source .venv/bin/activate && exec mypy .'";
             };
             ty = {
               enable = true;
@@ -60,12 +60,6 @@
             buildInputs = self.checks.${system}.pre-commit-check.enabledPackages ++ [
               pkgs.python3
               pkgs.uv
-              pkgs.python312Packages.loguru
-              pkgs.python312Packages.litestar
-              pkgs.python312Packages.pydantic-settings
-              pkgs.python312Packages.uvicorn
-              pkgs.python312Packages.rich
-              pkgs.python312Packages.twitchapi
             ];
           };
         }
