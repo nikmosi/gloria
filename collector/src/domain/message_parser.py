@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from domain.models import ParsedMessage, RawMessage
+from domain.values import ParsedMessage, RawMessage
 
 
 class MessageParser(ABC):

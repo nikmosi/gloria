@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from domain.models import ParsedMessage, Rank
+from domain.values import ParsedMessage, Rank
 
 
 def test_static_message() -> None:

@@ -2,8 +2,8 @@ from typing import override
 
 from loguru import logger
 
-from domain.models import ParsedMessage
 from domain.repository import MessageRepository
+from domain.values import ParsedMessage
 
 
 class MockRepository(MessageRepository):

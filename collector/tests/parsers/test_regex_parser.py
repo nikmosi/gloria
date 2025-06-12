@@ -1,6 +1,6 @@
 import datetime
 
-from domain.models import RawMessage
+from domain.values import RawMessage
 from infra.parsers import RegexParser
 
 

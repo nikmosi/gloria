@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from domain.models.message import RawMessage
+from domain.values import RawMessage
 
 
 class MessageSource(ABC):

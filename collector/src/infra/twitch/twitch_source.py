@@ -8,7 +8,7 @@ from loguru import logger
 from twitchAPI.chat import ChatMessage
 
 from domain import MessageSource
-from domain.models import RawMessage
+from domain.values import RawMessage
 from infra.twitch.twitch_client import TwichClient
 from infra.twitch.twitch_converter import convert_message
 

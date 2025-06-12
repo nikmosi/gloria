@@ -2,7 +2,7 @@ from datetime import datetime
 
 from twitchAPI.chat import ChatMessage
 
-from domain.models import RawMessage
+from domain.values import RawMessage
 
 
 def convert_message(msg: ChatMessage) -> RawMessage:

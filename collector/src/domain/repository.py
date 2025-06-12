@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from domain.models import ParsedMessage
+from domain.values import ParsedMessage
 
 
 class MessageRepository(ABC):

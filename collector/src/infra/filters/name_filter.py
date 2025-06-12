@@ -3,7 +3,7 @@ from collections.abc import Iterable
 from loguru import logger
 
 from domain import MessageFilter
-from domain.models.message import RawMessage
+from domain.values import RawMessage
 
 
 class NameMessageFilter(MessageFilter):
