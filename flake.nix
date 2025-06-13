@@ -2,27 +2,22 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     pre-commit-hooks.url = "github:cachix/git-hooks.nix";
-    devenv.url = "github:cachix/devenv";
-  };
-
-  nixConfig = {
-    extra-trusted-public-keys = "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=";
-    extra-substituters = "https://devenv.cachix.org";
   };
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      devenv,
-      ...
-    }@inputs:
+    { self, nixpkgs, ... }@inputs:
     let
-      system = "x86_64-linux";
-      pkgs = nixpkgs.legacyPackages.${system};
+      supportedSystems = [
+        "x86_64-linux"
+        "aarch64-linux"
+        "x86_64-darwin"
+        "aarch64-darwin"
+      ];
+
+      forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
     in
     {
-      checks = {
+      checks = forAllSystems (system: {
         pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
           src = ./.;
           hooks = {
@@ -52,35 +47,22 @@
             };
           };
         };
-      };
+      });
 
-      devShells.${system} = {
-        default = devenv.lib.mkShell {
-          inherit inputs pkgs;
-          modules = [
-            (
-              { pkgs, config, ... }:
-              {
-                # This is your devenv configuration
-                packages =
-                  [ pkgs.hello ]
-                  ++ self.checks.pre-commit-check.enabledPackages
-                  ++ [
-                    pkgs.python3
-                    pkgs.uv
-                  ];
-
-                enterShell = ''
-                  ${self.checks.pre-commit-check.shellHook}
-                  exec ${pkgs.nushell}/bin/nu
-                  hello
-                '';
-
-                processes.run.exec = "hello";
-              }
-            )
-          ];
-        };
-      };
+      devShells = forAllSystems (
+        system:
+        let
+          pkgs = nixpkgs.legacyPackages.${system};
+        in
+        {
+          default = nixpkgs.legacyPackages.${system}.mkShell {
+            inherit (self.checks.${system}.pre-commit-check) shellHook;
+            buildInputs = self.checks.${system}.pre-commit-check.enabledPackages ++ [
+              pkgs.python3
+              pkgs.uv
+            ];
+          };
+        }
+      );
     };
 }
