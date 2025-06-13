@@ -53,5 +53,8 @@ select = ["E", "F", "B", "I", "N", "UP", "PT", "T20"]
 [tool.ruff.lint.per-file-ignores]
 "./src/db/migrations/env.py" = ["E402"]
 
+[tool.uv]
+cache-dir = "./.cache/uv"
+
 [tool.ty.src]
 root = "./src"
