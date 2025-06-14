@@ -22,7 +22,10 @@
           src = ./.;
           hooks = {
             check-added-large-files.enable = true;
-            typos.enable = true;
+            typos = {
+              enable = true;
+              excludes = [ "collector/src/db/migrations/versions/.*" ];
+            };
             check-yaml.enable = true;
             convco.enable = true;
             end-of-file-fixer.enable = true;
