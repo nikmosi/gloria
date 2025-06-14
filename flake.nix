@@ -56,7 +56,10 @@
         in
         {
           default = nixpkgs.legacyPackages.${system}.mkShell {
-            inherit (self.checks.${system}.pre-commit-check) shellHook;
+            shellHook = ''
+              ${self.checks.${system}.pre-commit-check.shellHook}
+              exec ${pkgs.nushell}/bin/nu
+            '';
             buildInputs = self.checks.${system}.pre-commit-check.enabledPackages ++ [
               pkgs.python3
               pkgs.uv
