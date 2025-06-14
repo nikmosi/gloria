@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
@@ -7,5 +9,23 @@ class Base(DeclarativeBase):
 
 class LastMessage(Base):
     __tablename__ = "last_messages"
-    id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str]
+    nickname: Mapped[str] = mapped_column(primary_key=True)
+    date: Mapped[datetime]
+    points: Mapped[int]
+    hours: Mapped[float]
+    position: Mapped[int]
+    rank_name: Mapped[str]
+    rank_left: Mapped[int]
+    rank_right: Mapped[int]
+
+
+class Message(Base):
+    __tablename__ = "messages"
+    nickname: Mapped[str] = mapped_column(primary_key=True)
+    date: Mapped[datetime]
+    points: Mapped[int]
+    hours: Mapped[float]
+    position: Mapped[int]
+    rank_name: Mapped[str]
+    rank_left: Mapped[int]
+    rank_right: Mapped[int]
