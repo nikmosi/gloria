@@ -1,3 +1,4 @@
+# type: ignore
 """initial
 
 Revision ID: 99cec9413afe
