@@ -23,8 +23,9 @@ class LastMessage(Base):
     rank_right: Mapped[int]
 
 
-class Message(Base):
+class HistoryMessage(Base):
     __tablename__ = "messages"
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     nickname: Mapped[str] = mapped_column(primary_key=True)
     date: Mapped[datetime]
     points: Mapped[int]
