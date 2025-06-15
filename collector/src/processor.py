@@ -30,4 +30,4 @@ class MessageProcessor:
             if not parsed:
                 continue
 
-            self.repository.save(parsed)
+            await self.repository.save(parsed)
