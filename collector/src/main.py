@@ -11,7 +11,7 @@ from config import settings
 from infra.filters.name_filter import NameMessageFilter
 from infra.logging import setup_logger
 from infra.parsers.regex_parser import RegexParser
-from infra.repository.mock_repository import MockRepository
+from infra.repository.fake import FakeRepository
 from infra.twitch.twitch_auth import authenticate
 from infra.twitch.twitch_client import TwichClient
 from infra.twitch.twitch_source import TwitchMessageSource
@@ -37,7 +37,7 @@ async def main() -> None:
     client = TwichClient(twitch)
     twitch_source = TwitchMessageSource(client)
     name_filter = NameMessageFilter(["gloria_bot", "nikmosi"])
-    repository = MockRepository()
+    repository = FakeRepository()
 
     client.add_on_ready_handler(on_ready(settings.target_channels))
 

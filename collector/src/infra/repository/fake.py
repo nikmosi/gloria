@@ -6,10 +6,10 @@ from domain.repository import MessageRepository
 from domain.values import ParsedMessage
 
 
-class MockRepository(MessageRepository):
+class FakeRepository(MessageRepository):
     def __init__(self) -> None:
         super().__init__()
 
     @override
-    def save(self, msg: ParsedMessage) -> None:
+    async def save(self, msg: ParsedMessage) -> None:
         logger.debug(msg.model_dump_json())

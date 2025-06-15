@@ -8,5 +8,5 @@ class MessageRepository(ABC):
         super().__init__()
 
     @abstractmethod
-    def save(self, msg: ParsedMessage) -> None:
+    async def save(self, msg: ParsedMessage) -> None:
         pass
