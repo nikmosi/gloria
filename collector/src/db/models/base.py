@@ -6,6 +6,9 @@ from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 class Base(DeclarativeBase):
     __abstract__ = True
 
+    def to_dict(self):
+        return {c.key: getattr(self, c.key) for c in self.__table__.columns}
+
 
 class LastMessage(Base):
     __tablename__ = "last_messages"
