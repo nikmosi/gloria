@@ -173,6 +173,21 @@ wheels = [
 ]
 
 [[package]]
+name = "dependency-injector"
+version = "4.48.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/fc/6b/b35f3e5344a5d059bdb230b5a42a61dd6f3072694b09b4c8b0836119cde7/dependency_injector-4.48.0.tar.gz", hash = "sha256:575df9c3472b81a461d7d298fe8767d2761e39074179c99148e1271e35f80da1", size = 1102745, upload-time = "2025-06-16T11:08:24.973Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/3b/cc/8a1039759081e073f27af306d00f1b161c356ee8324ad1915e7e835f0d49/dependency_injector-4.48.0-cp38-abi3-macosx_11_0_arm64.whl", hash = "sha256:90c3bdc3bed4ed4b2a4a92c938d1e8e2f12cf854494ed2ceefa0dbeccbec7ff2", size = 1634806, upload-time = "2025-06-16T11:07:58.334Z" },
+    { url = "https://files.pythonhosted.org/packages/c4/34/a800e17234e1d80969b05b9c0f0215c7340766c4f2da1f623999227da31f/dependency_injector-4.48.0-cp38-abi3-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl", hash = "sha256:cc514451554eb6ee87dc70a3ccca335e897e73bb69e4403b3a452e3f79ec81de", size = 1859993, upload-time = "2025-06-16T11:08:01.099Z" },
+    { url = "https://files.pythonhosted.org/packages/d4/eb/42c214ab9602a0a717187fa25f084b0f630edeea55db32838bb00d63fc1a/dependency_injector-4.48.0-cp38-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:a4a7c8d474b1747b9292678e5bc4a27b5918938615b5d8c7a9d737e28d291811", size = 1816260, upload-time = "2025-06-16T11:08:02.606Z" },
+    { url = "https://files.pythonhosted.org/packages/69/68/6c4a173e0378fd8ca4b63d9163026efe2ac6a90a16ba084fb265395c8bad/dependency_injector-4.48.0-cp38-abi3-musllinux_1_2_aarch64.whl", hash = "sha256:15c251968dbbf1f4cf1ef9e4b5df360ff4c0d9038a433c4fa4cfa4eb9962a701", size = 1830325, upload-time = "2025-06-16T11:08:03.96Z" },
+    { url = "https://files.pythonhosted.org/packages/c4/be/45de07d2b2f4bd5a979923b32c224eb43ab04518ae81001fc29d5a79afdd/dependency_injector-4.48.0-cp38-abi3-musllinux_1_2_x86_64.whl", hash = "sha256:58a554929eb6b63ad9e07418b0e733f1ad8c33210363f526a30b4dc44b6ea947", size = 1868082, upload-time = "2025-06-16T11:08:05.752Z" },
+    { url = "https://files.pythonhosted.org/packages/67/cd/4c000c6a581cc9384c902db942dea3d8353a49ce0975817175860b2813f9/dependency_injector-4.48.0-cp38-abi3-win32.whl", hash = "sha256:e26ba8c189e504b6c68bfef535e0a58b4ea227eb5107c2df39b8b59b85c47102", size = 1519793, upload-time = "2025-06-16T11:08:07.558Z" },
+    { url = "https://files.pythonhosted.org/packages/31/85/9172b8705846d4128c34765a0886d1215d7c573f99643cfc51f3c3bf7e50/dependency_injector-4.48.0-cp38-abi3-win_amd64.whl", hash = "sha256:a52dc56fd825afff31147044464a7cdf21ad89e2066f5d13e7bdd669a58ee196", size = 1642976, upload-time = "2025-06-16T11:08:09.029Z" },
+]
+
+[[package]]
 name = "enum-tools"
 version = "0.13.0"
 source = { registry = "https://pypi.org/simple" }
@@ -264,6 +279,7 @@ source = { virtual = "." }
 dependencies = [
     { name = "alembic" },
     { name = "asyncpg" },
+    { name = "dependency-injector" },
     { name = "litestar" },
     { name = "loguru" },
     { name = "pydantic-settings" },
@@ -284,6 +300,7 @@ dev = [
 requires-dist = [
     { name = "alembic", specifier = ">=1.16.1" },
     { name = "asyncpg", specifier = ">=0.30.0" },
+    { name = "dependency-injector", specifier = ">=4.48.0" },
     { name = "litestar", specifier = ">=2.16.0" },
     { name = "loguru", specifier = ">=0.7.3" },
     { name = "pydantic-settings", specifier = ">=2.9.1" },
