@@ -53,7 +53,7 @@ class Container(containers.DeclarativeContainer):
     twitch = providers.Resource(_init_twitch, settings=settings)
 
     twitch_client: Resource[TwichClient] = cast(
-        Resource[TwichClient], providers.Resource(_init_twitch_client, twitch)
+        Resource[TwichClient], providers.Resource(_init_twitch_client, twitch, settings)
     )
     message_source: Singleton[MessageSource] = providers.Singleton(
         TwitchMessageSource,
