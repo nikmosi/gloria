@@ -12,7 +12,7 @@ from domain.message_parser import MessageParser
 from domain.message_source import MessageSource
 from domain.repository import MessageRepository
 from infra.logging.logging import setup_logger
-from processor import MessageProcessor
+from logic.processor import MessageProcessor
 
 
 @inject
