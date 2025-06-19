@@ -14,12 +14,11 @@ class Settings(BaseSettings):
     target_channels: str = "jeensoff"
     user_scope: list[AuthScope] = [AuthScope.CHAT_READ]
 
+    filtered_name: list[str] = ["gloria_bot", "nikmosi"]
+
     callback_url: Url = Url("http://localhost/login/confirm")
     port: int = 8000
 
     database: PostgresDsn = PostgresDsn(
         "postgresql+asyncpg://user:123@postgres:5432/collector"
     )
-
-
-settings = Settings()

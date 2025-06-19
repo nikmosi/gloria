@@ -1,68 +1,46 @@
 from __future__ import annotations
 
 import asyncio
-from collections.abc import Awaitable, Callable
-from functools import wraps
 
+from dependency_injector.wiring import Provide, inject
 from loguru import logger
-from twitchAPI.chat import EventData
 
-from config import settings
-from infra.filters.name_filter import NameMessageFilter
-from infra.logging import setup_logger
-from infra.parsers.regex_parser import RegexParser
-from infra.repository.fake import FakeRepository
-from infra.twitch.twitch_auth import authenticate
-from infra.twitch.twitch_client import TwichClient
-from infra.twitch.twitch_source import TwitchMessageSource
+from config.container import Container
+from config.init import init_container
+from domain.message_filter import MessageFilter
+from domain.message_parser import MessageParser
+from domain.message_source import MessageSource
+from domain.repository import MessageRepository
+from infra.logging.logging import setup_logger
 from processor import MessageProcessor
 
 
-def on_ready(target_channel: str) -> Callable[[EventData], Awaitable[None]]:
-    @wraps(on_ready)
-    async def wrapped(ready_event: EventData) -> None:
-        logger.debug("Bot is ready for work, joining channels")
-        await ready_event.chat.join_room(target_channel)
-        logger.info(f"joined to [bold magenta]{target_channel}[/]")
-
-    return wrapped
-
-
-async def main() -> None:
-    setup_logger()
-    logger.debug("Starting bot")
-    twitch = await authenticate(settings)
-
-    logger.debug("Creating chat")
-    client = TwichClient(twitch)
-    twitch_source = TwitchMessageSource(client)
-    name_filter = NameMessageFilter(["gloria_bot", "nikmosi"])
-    repository = FakeRepository()
-
-    client.add_on_ready_handler(on_ready(settings.target_channels))
-
+@inject
+async def main(
+    twitch_source: MessageSource = Provide[Container.message_source],
+    name_filter: MessageFilter = Provide[Container.name_filter],
+    parser: MessageParser = Provide[Container.parser],
+    repository: MessageRepository = Provide[Container.repository],
+) -> None:
     processor = MessageProcessor(
         twitch_source,
         name_filter,
-        RegexParser(),
+        parser,
         repository,
     )
-
-    await client.start()
-    logger.info("Chat created")
 
     try:
         logger.debug("[bold red]press Ctrl-C to stop...[/]")
         await processor.run()
     finally:
-        logger.debug("[bold red]closing resources[/]")
-        client.stop()
-        await twitch.close()  # type: ignore[no-untyped-call]
-        logger.info("closed resources")
+        logger.debug("[bold red]exit[/]")
 
 
 if __name__ == "__main__":
     try:
+        setup_logger()
+        container = asyncio.run(init_container())
+        container.wire(modules=[__name__])
         asyncio.run(main())
     except KeyboardInterrupt:
         logger.info("got Ctrl-C")
