@@ -4,6 +4,8 @@ It's twitch bot. Aim is collect messages from gloria-bot with viewer statistic.
 
 # TODO
 
+- [ ] twitch auth storage saver
+
 ## Message
 - [x] Read
 - [x] Collect
