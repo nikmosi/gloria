@@ -61,7 +61,7 @@ class Container(containers.DeclarativeContainer):
         Resource[TwichClient], providers.Resource(_init_twitch_client, twitch, settings)
     )
     message_source: Singleton[MessageSource] = providers.Singleton(
-        TwitchMessageSource,
+        TwitchMessageSource, twitch_client
     )
 
     name_filter: Singleton[MessageFilter] = providers.Singleton(
