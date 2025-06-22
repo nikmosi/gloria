@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from pydantic import Field, PostgresDsn
 from pydantic_core import Url
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -22,3 +24,5 @@ class Settings(BaseSettings):
     database: PostgresDsn = PostgresDsn(
         "postgresql+asyncpg://user:123@postgres:5432/collector"
     )
+
+    storage_path: Path = Path("./var/collector/token.json")
