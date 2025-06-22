@@ -24,20 +24,21 @@ class AuthController(Controller):
         auth_service: AuthService,
     ) -> Response[str]:
         logger.debug("compliting auth")
+        msg: str = "Auth complete. You can close this tab."
+        exit_code = status_codes.HTTP_200_OK
         try:
             await auth_service.verify(code, state_)
         except TwitchAPIException:
-            return Response(
-                "Auth failed", status_code=status_codes.HTTP_400_BAD_REQUEST
-            )
+            msg = "Auth failed"
+            exit_code = status_codes.HTTP_400_BAD_REQUEST
         except StateError:
-            return Response("Bad state", status_code=status_codes.HTTP_401_UNAUTHORIZED)
+            msg = "Bad state"
+            exit_code = status_codes.HTTP_401_UNAUTHORIZED
         except CodeError:
-            return Response(
-                "Missing code", status_code=status_codes.HTTP_400_BAD_REQUEST
-            )
-        auth_service.complete()
-        logger.info("complete auth")
-        return Response(
-            "Auth complete. You can close this tab.",
-        )
+            msg = "Missing code"
+            exit_code = status_codes.HTTP_400_BAD_REQUEST
+        else:
+            auth_service.complete()
+            logger.info("complete auth")
+        # FIX: Literal[Auth ...] instead str type
+        return Response(str(msg), status_code=exit_code)
