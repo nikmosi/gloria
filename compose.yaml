@@ -15,6 +15,7 @@ services:
       - app_net
     volumes:
       - ./collector/src/db/migrations/versions:/app/src/db/migrations/versions
+      - ./.var/collector:/app/var/collector
 
   postgres:
     image: postgres:latest
