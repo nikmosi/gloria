@@ -10,13 +10,14 @@ from loguru import logger
 from twitchAPI.twitch import Twitch
 
 from config.settings import Settings
+from db.database import DataBase
 from domain.message_filter import MessageFilter
 from domain.message_parser import MessageParser
 from domain.message_source import MessageSource
 from domain.repository import MessageRepository
 from infra.filters.name_filter import NameMessageFilter
 from infra.parsers.regex_parser import RegexParser
-from infra.repository.fake import FakeRepository
+from infra.repository.postgres import PostgresRepository
 from infra.twitch.twitch_auth import authenticate
 from infra.twitch.twitch_client import TwichClient
 from infra.twitch.twitch_source import TwitchMessageSource
@@ -47,6 +48,10 @@ async def _init_twitch_client(
         client.stop()
 
 
+async def _init_database(settings: Settings) -> DataBase:
+    return DataBase(settings.database.encoded_string())
+
+
 class Container(containers.DeclarativeContainer):
     settings: Singleton[Settings] = providers.Singleton(Settings)
 
@@ -65,4 +70,8 @@ class Container(containers.DeclarativeContainer):
 
     parser: Singleton[MessageParser] = providers.Singleton(RegexParser)
 
-    repository: Singleton[MessageRepository] = providers.Singleton(FakeRepository)
+    database: Resource[DataBase] = providers.Resource(_init_database, settings)
+
+    repository: Singleton[MessageRepository] = providers.Singleton(
+        PostgresRepository, database
+    )
