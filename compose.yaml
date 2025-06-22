@@ -99,6 +99,7 @@ services:
   npm_db:
     image: postgres:latest
     container_name: npm_db
+    restart: unless-stopped
     environment:
       POSTGRES_USER: 'npm'
       POSTGRES_PASSWORD: 'npmpass'
