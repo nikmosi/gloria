@@ -64,7 +64,6 @@
               exec ${pkgs.nushell}/bin/nu
             '';
             buildInputs = self.checks.${system}.pre-commit-check.enabledPackages ++ [
-              pkgs.python3
               pkgs.uv
             ];
           };
