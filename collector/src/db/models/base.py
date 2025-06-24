@@ -16,7 +16,7 @@ class LastMessage(Base):
     __tablename__ = "last_messages"
     nickname: Mapped[str] = mapped_column(primary_key=True)
     date: Mapped[datetime]
-    points: Mapped[int]
+    points: Mapped[int] = mapped_column(index=True)
     hours: Mapped[float]
     position: Mapped[int]
     rank_name: Mapped[str]
@@ -29,7 +29,7 @@ class HistoryMessage(Base):
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     nickname: Mapped[str]
     date: Mapped[datetime]
-    points: Mapped[int]
+    points: Mapped[int] = mapped_column(index=True)
     hours: Mapped[float]
     position: Mapped[int]
     rank_name: Mapped[str]
