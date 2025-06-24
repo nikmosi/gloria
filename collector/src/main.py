@@ -36,11 +36,15 @@ async def main(
         logger.debug("[bold red]exit[/]")
 
 
+async def middleware():
+    setup_logger()
+    container = await init_container()
+    container.wire(modules=[__name__])
+    await main()
+
+
 if __name__ == "__main__":
     try:
-        setup_logger()
-        container = asyncio.run(init_container())
-        container.wire(modules=[__name__])
-        asyncio.run(main())
+        asyncio.run(middleware())
     except KeyboardInterrupt:
         logger.info("got Ctrl-C")
