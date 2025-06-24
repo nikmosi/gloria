@@ -18,9 +18,9 @@ from domain.repository import MessageRepository
 from infra.filters.name_filter import NameMessageFilter
 from infra.parsers.regex_parser import RegexParser
 from infra.repository.postgres import PostgresRepository
+from infra.source.twitch import TwitchMessageSource
 from infra.twitch.twitch_auth import authenticate
 from infra.twitch.twitch_client import TwichClient
-from infra.twitch.twitch_source import TwitchMessageSource
 
 
 @contextlib.asynccontextmanager
