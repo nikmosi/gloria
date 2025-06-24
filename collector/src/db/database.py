@@ -28,7 +28,7 @@ class DataBase:
             yield session
         except Exception as e:
             await session.rollback()
-            logger.debug("got error in session context. rollback changes.")
+            logger.warning("got error in session context. rollback changes.")
             logger.error(e)
         finally:
             await session.aclose()
