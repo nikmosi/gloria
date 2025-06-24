@@ -12,6 +12,7 @@ dependencies = [
     "litestar>=2.16.0",
     "loguru>=0.7.3",
     "pydantic-settings>=2.9.1",
+    "pytest-asyncio>=1.0.0",
     "rich>=14.0.0",
     "sqlalchemy[asyncio]>=2.0.41",
     "twitchapi>=4.4.0",
@@ -25,6 +26,8 @@ pythonpath = [
 addopts = "-rsa --strict-markers"
 testpaths = ["tests"]
 python_files = ["test_*.py"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "session"
 
 [dependency-groups]
 dev = [
