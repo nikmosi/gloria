@@ -11,6 +11,9 @@ class FakeRepository(MessageRepository):
         self._messages: list[ParsedMessage] = []
         super().__init__()
 
+    def get_saved(self) -> list[ParsedMessage]:
+        return list(self._messages)
+
     @override
     async def save(self, msg: ParsedMessage) -> None:
         self._messages.append(msg)
