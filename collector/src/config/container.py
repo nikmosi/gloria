@@ -25,9 +25,9 @@ from infra.twitch.twitch_source import TwitchMessageSource
 
 @contextlib.asynccontextmanager
 async def _init_twitch(settings: Settings) -> AsyncGenerator[Twitch, None]:
-    logger.debug("Authenticate starting")
+    logger.debug("initing twitch")
     twitch = await authenticate(settings)
-    logger.info("Authenticate end")
+    logger.info("inited twitch")
     try:
         yield twitch
     finally:
