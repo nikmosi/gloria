@@ -1,4 +1,15 @@
 services:
+  webui-litestar:
+    build:
+      context: ./webui
+      dockerfile: dockerfile
+    env_file:
+      - ./collector/.env
+    environment:
+      - PYTHONUNBUFFERED=1
+      - TERM=xterm
+    networks:
+      - db_net
 
   collector:
     build:
