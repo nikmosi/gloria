@@ -15,12 +15,35 @@
       ];
 
       forAllSystems = nixpkgs.lib.genAttrs supportedSystems;
+
+      hookForApp = appName: {
+        "mypy-${appName}" = {
+          enable = true;
+          stages = [ "pre-push" ];
+          files = "${appName}/";
+          entry = "sh -c 'cd ./${appName} && source .venv/bin/activate && exec mypy .'";
+        };
+        "ty-${appName}" = {
+          enable = true;
+          name = "ty ${appName} check";
+          files = "${appName}/";
+          entry = "sh -c 'cd ./${appName} && source .venv/bin/activate && uvx ty check'";
+          types = [ "python" ];
+        };
+      };
+
+      apps = [
+        "collector"
+        "webui"
+      ];
+
+      appHooks = builtins.foldl' (acc: name: acc // hookForApp name) { } apps;
     in
     {
       checks = forAllSystems (system: {
         pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
           src = ./.;
-          hooks = {
+          hooks = appHooks // {
             check-added-large-files.enable = true;
             typos = {
               enable = true;
@@ -33,17 +56,6 @@
             ruff-format.enable = true;
             ruff.enable = true;
             trim-trailing-whitespace.enable = true;
-            mypy = {
-              enable = true;
-              stages = [ "pre-push" ];
-              entry = "sh -c 'cd ./collector && source .venv/bin/activate && exec mypy .'";
-            };
-            ty = {
-              enable = true;
-              name = "ty check";
-              entry = "sh -c 'cd ./collector && uvx ty check'";
-              types = [ "python" ];
-            };
             trufflehog = {
               enable = true;
               stages = [ "pre-push" ];
