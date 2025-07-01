@@ -6,6 +6,8 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
       - TERM=xterm
+    ports:
+      - 8080:8080
     networks:
       - db_net
 
