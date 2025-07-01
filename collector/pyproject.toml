@@ -31,6 +31,7 @@ asyncio_default_fixture_loop_scope = "session"
 
 [dependency-groups]
 dev = [
+    "coverage>=7.9.1",
     "mypy>=1.15.0",
     "pytest>=8.3.5",
     "pytest-timeout>=2.4.0",
