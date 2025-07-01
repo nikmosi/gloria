@@ -1,5 +1,5 @@
 services:
-  webui-litestar:
+  webui:
     build:
       context: ./webui
       dockerfile: dockerfile
