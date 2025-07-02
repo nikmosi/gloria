@@ -28,4 +28,4 @@ ENV PATH="/app/.venv/bin:$PATH"
 EXPOSE 8080
 
 ENTRYPOINT []
-CMD ["litestar", "run", "--host", "0.0.0.0", "--port", "8080"]
+CMD ["litestar", "--app", "src:app", "run", "--host", "0.0.0.0", "--port", "8080"]
