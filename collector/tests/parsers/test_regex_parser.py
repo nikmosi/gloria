@@ -22,3 +22,11 @@ def test_regex_parser() -> None:
     assert result.rank.name == "боб"
     assert result.rank.left == 12
     assert result.rank.right == 20
+
+
+def test_regex_none() -> None:
+    parser = RegexParser()
+    msg = RawMessage(text="", date=datetime.datetime.now(), author="nik")
+    result = parser.parse(msg)
+
+    assert result is None
