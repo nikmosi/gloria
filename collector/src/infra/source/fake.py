@@ -1,8 +1,8 @@
 from collections.abc import Iterable
 from typing import override
 
-from domain.message_source import MessageSource
 from domain.values.message import RawMessage
+from logic.messages.source import MessageSource
 
 
 class FakeMessageSource(MessageSource):

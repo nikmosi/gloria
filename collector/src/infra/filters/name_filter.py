@@ -2,8 +2,8 @@ from collections.abc import Iterable
 
 from loguru import logger
 
-from domain import MessageFilter
 from domain.values import RawMessage
+from logic.messages.filter import MessageFilter
 
 
 class NameMessageFilter(MessageFilter):

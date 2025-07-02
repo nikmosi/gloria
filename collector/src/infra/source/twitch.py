@@ -7,10 +7,10 @@ from typing import override
 from loguru import logger
 from twitchAPI.chat import ChatMessage
 
-from domain import MessageSource
 from domain.values import RawMessage
 from infra.twitch.twitch_client import TwichClient
 from infra.twitch.twitch_converter import convert_message
+from logic.messages.source import MessageSource
 
 
 class TwitchMessageSource(MessageSource):

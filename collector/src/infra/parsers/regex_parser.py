@@ -1,7 +1,7 @@
 import re
 
-from domain import MessageParser
 from domain.values import ParsedMessage, Rank, RawMessage
+from logic.messages.parser import MessageParser
 
 
 class RegexParser(MessageParser):

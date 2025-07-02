@@ -7,11 +7,11 @@ from loguru import logger
 
 from config.container import Container
 from config.init import init_container
-from domain.message_filter import MessageFilter
-from domain.message_parser import MessageParser
-from domain.message_source import MessageSource
 from domain.repository import MessageRepository
 from infra.logging.logging import setup_logger
+from logic.messages.filter import MessageFilter
+from logic.messages.parser import MessageParser
+from logic.messages.source import MessageSource
 from logic.processor import MessageProcessor
 
 

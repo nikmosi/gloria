@@ -11,9 +11,6 @@ from twitchAPI.twitch import Twitch
 
 from config.settings import Settings
 from db.database import DataBase
-from domain.message_filter import MessageFilter
-from domain.message_parser import MessageParser
-from domain.message_source import MessageSource
 from domain.repository import MessageRepository
 from infra.filters.name_filter import NameMessageFilter
 from infra.parsers.regex_parser import RegexParser
@@ -21,6 +18,9 @@ from infra.repository.postgres import PostgresRepository
 from infra.source.twitch import TwitchMessageSource
 from infra.twitch.twitch_auth import authenticate
 from infra.twitch.twitch_client import TwichClient
+from logic.messages.filter import MessageFilter
+from logic.messages.parser import MessageParser
+from logic.messages.source import MessageSource
 
 
 @contextlib.asynccontextmanager
