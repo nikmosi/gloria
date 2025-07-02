@@ -18,6 +18,6 @@ def user_instance() -> FakeUser:
     return FakeUser(id=1, username="nikmosi", age=30)
 
 
-def test_to_dict(user_instance: FakeUser):
+def test_to_dict(user_instance: FakeUser) -> None:
     result = user_instance.to_dict()
     assert result == {"id": 1, "username": "nikmosi", "age": 30}

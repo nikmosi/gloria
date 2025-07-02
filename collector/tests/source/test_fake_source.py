@@ -21,7 +21,7 @@ def raw_messages(faker: Faker) -> list[RawMessage]:
 
 
 @pytest.mark.asyncio
-async def test_fake_message_source(raw_messages: list[RawMessage]):
+async def test_fake_message_source(raw_messages: list[RawMessage]) -> None:
     source = FakeMessageSource(raw_messages)
     for msg in raw_messages:
         received = await source.receive()

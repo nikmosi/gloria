@@ -36,7 +36,7 @@ async def main(
         logger.debug("[bold red]exit[/]")
 
 
-async def middleware():
+async def middleware() -> None:
     setup_logger()
     container = await init_container()
     container.wire(modules=[__name__])

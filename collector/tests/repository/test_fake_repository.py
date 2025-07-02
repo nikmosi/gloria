@@ -12,7 +12,7 @@ def repository() -> FakeRepository:
 
 
 @pytest.mark.asyncio
-async def test_fake_repository(repository: FakeRepository):
+async def test_fake_repository(repository: FakeRepository) -> None:
     assert repository.get_saved().__len__() == 0
 
     msg = ParsedMessage(

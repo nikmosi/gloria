@@ -31,7 +31,7 @@ async def _init_twitch(settings: Settings) -> AsyncGenerator[Twitch, None]:
     try:
         yield twitch
     finally:
-        await twitch.close()
+        await twitch.close()  # type: ignore
 
 
 @contextlib.asynccontextmanager

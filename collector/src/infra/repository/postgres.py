@@ -52,4 +52,3 @@ class PostgresRepository(MessageRepository):
             await s.execute(stmt)
             s.add(history_msg)
             await s.commit()
-        return await super().save(msg)
