@@ -10,7 +10,7 @@ jobs:
       - name: Install the latest version of uv
         uses: astral-sh/setup-uv@v6
       - name: run test and generate cov
-        run: cd ./collector && uv run --with pytest-cov --with pytest-asyncio pytest --cov=collector --cov-branch --cov-report=xml
+        run: cd ./collector && uv run pytest --cov=. --cov-branch --cov-report=xml
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
         with:
