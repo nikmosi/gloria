@@ -326,7 +326,6 @@ dependencies = [
     { name = "litestar" },
     { name = "loguru" },
     { name = "pydantic-settings" },
-    { name = "pytest-asyncio" },
     { name = "rich" },
     { name = "sqlalchemy", extra = ["asyncio"] },
     { name = "twitchapi" },
@@ -338,6 +337,7 @@ dev = [
     { name = "coverage" },
     { name = "mypy" },
     { name = "pytest" },
+    { name = "pytest-asyncio" },
     { name = "pytest-cov" },
     { name = "pytest-timeout" },
 ]
@@ -351,7 +351,6 @@ requires-dist = [
     { name = "litestar", specifier = ">=2.16.0" },
     { name = "loguru", specifier = ">=0.7.3" },
     { name = "pydantic-settings", specifier = ">=2.9.1" },
-    { name = "pytest-asyncio", specifier = ">=1.0.0" },
     { name = "rich", specifier = ">=14.0.0" },
     { name = "sqlalchemy", extras = ["asyncio"], specifier = ">=2.0.41" },
     { name = "twitchapi", specifier = ">=4.4.0" },
@@ -363,6 +362,7 @@ dev = [
     { name = "coverage", specifier = ">=7.9.1" },
     { name = "mypy", specifier = ">=1.15.0" },
     { name = "pytest", specifier = ">=8.3.5" },
+    { name = "pytest-asyncio", specifier = ">=1.0.0" },
     { name = "pytest-cov", specifier = ">=6.2.1" },
     { name = "pytest-timeout", specifier = ">=2.4.0" },
 ]
