@@ -79,8 +79,8 @@ class Container(containers.DeclarativeContainer):
 
     processor: Singleton[MessageProcessor] = providers.Singleton(
         MessageProcessor,
-        twitch_source=message_source,
-        name_filter=name_filter,
+        source=message_source,
+        filter_=name_filter,
         parser=parser,
         repository=repository,
     )
