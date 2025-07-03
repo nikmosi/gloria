@@ -7,14 +7,18 @@ from .container import Container
 
 
 @lru_cache(1)
-async def init_container() -> DeclarativeContainer:
-    return await _init_container()
+async def init_container() -> Container:
+    con = await _create_container()
+    await _init_container(con)
+    return con
 
 
-async def _init_container() -> DeclarativeContainer:
+async def _create_container() -> Container:
     container = Container()
+    return container
+
+
+async def _init_container(container: DeclarativeContainer) -> None:
     to_await = container.init_resources()
     if isinstance(to_await, Awaitable):
         await to_await
-
-    return container
