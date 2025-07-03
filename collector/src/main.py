@@ -1,42 +1,27 @@
 from __future__ import annotations
 
 import asyncio
+import contextlib
 
 from dependency_injector.wiring import Provide, inject
 from loguru import logger
 
 from config.container import Container
 from config.init import init_container
-from domain.repository import MessageRepository
 from infra.logging.logging import setup_logger
-from logic.messages.filter import MessageFilter
-from logic.messages.parser import MessageParser
-from logic.messages.source import MessageSource
 from logic.processor import MessageProcessor
 
 
 @inject
-async def main(
-    twitch_source: MessageSource = Provide[Container.message_source],
-    name_filter: MessageFilter = Provide[Container.name_filter],
-    parser: MessageParser = Provide[Container.parser],
-    repository: MessageRepository = Provide[Container.repository],
-) -> None:
-    processor = MessageProcessor(
-        twitch_source,
-        name_filter,
-        parser,
-        repository,
-    )
-
+async def main(processor: MessageProcessor = Provide[Container.processor]) -> None:
     try:
-        logger.debug("[bold red]press Ctrl-C to stop...[/]")
+        logger.debug("[bold red]run[/]")
         await processor.run()
     finally:
         logger.debug("[bold red]exit[/]")
 
 
-async def middleware() -> None:
+async def wire_container() -> None:
     setup_logger()
     container = await init_container()
     container.wire(modules=[__name__])
@@ -44,7 +29,5 @@ async def middleware() -> None:
 
 
 if __name__ == "__main__":
-    try:
-        asyncio.run(middleware())
-    except KeyboardInterrupt:
-        logger.info("got Ctrl-C")
+    with contextlib.suppress(KeyboardInterrupt):
+        asyncio.run(wire_container())

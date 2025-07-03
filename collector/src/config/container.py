@@ -21,6 +21,7 @@ from infra.twitch.twitch_client import TwichClient
 from logic.messages.filter import MessageFilter
 from logic.messages.parser import MessageParser
 from logic.messages.source import MessageSource
+from logic.processor import MessageProcessor
 
 
 @contextlib.asynccontextmanager
@@ -74,4 +75,12 @@ class Container(containers.DeclarativeContainer):
 
     repository: Singleton[MessageRepository] = providers.Singleton(
         PostgresRepository, database
+    )
+
+    processor: Singleton[MessageProcessor] = providers.Singleton(
+        MessageProcessor,
+        twitch_source=message_source,
+        name_filter=name_filter,
+        parser=parser,
+        repository=repository,
     )
