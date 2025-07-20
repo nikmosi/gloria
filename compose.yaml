@@ -15,6 +15,7 @@ services:
     build:
       context: ./collector
       dockerfile: dockerfile
+    restart: unless-stopped
     container_name: gloria_collector
     env_file:
       - ./collector/.env
