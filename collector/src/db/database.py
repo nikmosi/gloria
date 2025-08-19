@@ -30,5 +30,6 @@ class DataBase:
             await session.rollback()
             logger.warning("got error in session context. rollback changes.")
             logger.error(e)
+            raise
         finally:
             await session.aclose()
