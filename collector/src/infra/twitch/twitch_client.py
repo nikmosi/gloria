@@ -31,5 +31,5 @@ class TwichClient:
     async def _on_ready(self, ready_event: EventData) -> None:
         logger.debug("Bot is ready for work, joining channels")
         await ready_event.chat.join_room(self.targets)
-        logger.debug(f"Connected as: ${ready_event.chat.username}")
+        logger.debug(f"Connected as: {ready_event.chat.username}")
         logger.info(f"joined to [bold magenta]{self.targets}[/]")
