@@ -22,7 +22,11 @@ class MessageProcessor:
     async def run(self) -> None:
         logger.debug("start running")
         while True:
-            msg = await self.source.receive()
+            try:
+                msg = await self.source.receive()
+            except StopAsyncIteration:
+                logger.debug("message source exhausted")
+                break
             if not self.filter_.is_match(msg):
                 continue
 
