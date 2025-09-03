@@ -1,16 +1,4 @@
 services:
-  webui:
-    build:
-      context: ./webui
-      dockerfile: dockerfile
-    environment:
-      - PYTHONUNBUFFERED=1
-      - TERM=xterm
-    ports:
-      - 8080:8080
-    networks:
-      - db_net
-
   collector:
     build:
       context: ./collector
@@ -58,7 +46,7 @@ services:
       test:
         [
           "CMD-SHELL",
-          "pg_isready -U ${POSTGRES_USER:-postgres_user} -d ${POSTGRES_DB:-postgres_password}"
+          "pg_isready -U ${POSTGRES_USER:-user} -d ${POSTGRES_DB:-collector}"
         ]
       interval: 30s
       timeout: 10s
@@ -83,60 +71,9 @@ services:
       - pgadmin_net
     restart: unless-stopped
 
-  nginx:
-    image: 'jc21/nginx-proxy-manager:latest'
-    container_name: nginx_npm
-    restart: unless-stopped
-    ports:
-      - '80:80' # Public HTTP Port
-      - '443:443' # Public HTTPS Port
-      - '81:81' # Admin Web Port
-    networks:
-      - npm_db_net
-      - app_net
-      - pgadmin_net
-    environment:
-      # Postgres parameters:
-      DB_POSTGRES_HOST: 'npm_db'
-      DB_POSTGRES_PORT: '5432'
-      DB_POSTGRES_USER: 'npm'
-      DB_POSTGRES_PASSWORD: 'npmpass'
-      DB_POSTGRES_NAME: 'npm'
-      DISABLE_IPV6: 'true'
-    volumes:
-      - ./.var/data:/data
-      - ./.var/letsencrypt:/etc/letsencrypt
-    depends_on:
-      - npm_db
-
-  npm_db:
-    image: postgres:latest
-    container_name: npm_db
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: 'npm'
-      POSTGRES_PASSWORD: 'npmpass'
-      POSTGRES_DB: 'npm'
-    networks:
-      - npm_db_net
-    deploy:
-      resources:
-        limits:
-          cpus: '0.50'
-          memory: 512M
-    healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "pg_isready -U ${POSTGRES_USER:-postgres_user} -d ${POSTGRES_DB:-postgres_password}"
-        ]
-    volumes:
-      - ./.var/npm_db:/var/lib/postgresql/data
-
 networks:
   db_net:
   app_net:
-  npm_db_net:
   pgadmin_net:
 
 
