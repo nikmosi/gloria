@@ -8,7 +8,6 @@ from loguru import logger
 
 from config.container import Container
 from config.init import init_container
-from infra.logging.logging import setup_logger
 from logic.processor import MessageProcessor
 
 
@@ -22,9 +21,9 @@ async def main(processor: MessageProcessor = Provide[Container.processor]) -> No
 
 
 async def wire_container() -> None:
-    setup_logger()
     container = await init_container()
     container.wire(modules=[__name__])
+    logger.debug("run main")
     await main()
 
 

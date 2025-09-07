@@ -18,22 +18,26 @@ class TwitchMessageSource(MessageSource):
         self._queue: Queue[ChatMessage] = Queue()
         self._main_loop = asyncio.get_running_loop()
 
+        logger.debug("init twitch source")
+
         twitch_client.add_message_handler(self.on_message)
 
     async def _put_message(self, msg: ChatMessage) -> None:
         room = msg.room
         name = "None" if room is None else room.name
 
-        logger.info(
+        logger.debug(
             f"in [bold magenta]{name}[/], [bold yellow]{msg.user.name}[/] said:"
             f" {msg.text}"
         )
         await self._queue.put(msg)
 
     async def on_message(self, msg: ChatMessage) -> None:
+        logger.trace("on_message")
         asyncio.run_coroutine_threadsafe(self._put_message(msg), self._main_loop)
 
     @override
     async def receive(self) -> RawMessage:
+        logger.trace("receive")
         msg = await self._queue.get()
         return convert_message(msg)

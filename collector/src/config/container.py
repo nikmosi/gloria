@@ -4,6 +4,7 @@ import contextlib
 from collections.abc import AsyncGenerator
 from typing import cast
 
+import loguru
 from dependency_injector import containers, providers
 from dependency_injector.providers import Resource, Singleton
 from loguru import logger
@@ -13,6 +14,7 @@ from config.settings import Settings
 from db.database import DataBase
 from domain.repository import MessageRepository
 from infra.filters.name_filter import NameMessageFilter
+from infra.logging.logging import setup_logger
 from infra.parsers.regex_parser import RegexParser
 from infra.repository.postgres import PostgresRepository
 from infra.source.twitch import TwitchMessageSource
@@ -55,6 +57,10 @@ async def _init_database(settings: Settings) -> DataBase:
 
 class Container(containers.DeclarativeContainer):
     settings: Singleton[Settings] = providers.Singleton(Settings)
+
+    logger: Resource[loguru.Logger] = providers.Resource(
+        setup_logger, settings.provided.log
+    )
 
     twitch = providers.Resource(_init_twitch, settings=settings)
 

@@ -9,7 +9,7 @@ class RegexParser(MessageParser):
         r"(?P<nikname>\w+),\sу вас\s"
         r"(?P<points>[\d\s]+)\sочков опыта, провел\(а\) на стримах\s"
         r"(?P<hours>[\d\s,]+)\sчасов\. В топе\s(?P<top>\d+), ты\s"
-        r"(?P<rankname>\w+)\[(?P<rankposition>\d+)/(?P<totalrank>\d+)\]"
+        r"(?P<rankname>[^\[]+)\[(?P<rankposition>\d+)/(?P<totalrank>\d+)\]"
     )
 
     def parse(self, msg: RawMessage) -> ParsedMessage | None:

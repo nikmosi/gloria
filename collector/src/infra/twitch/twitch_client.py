@@ -14,14 +14,17 @@ class TwichClient:
     def add_message_handler(
         self, handler: Callable[[ChatMessage], Awaitable[None]]
     ) -> None:
+        logger.debug("add_message_handler")
         self.chat.register_event(ChatEvent.MESSAGE, handler)
 
     def add_on_ready_handler(
-        self, handler: Callable[[EventData], Awaitable[None]]
+        self, handler: Callable[[ChatMessage], Awaitable[None]]
     ) -> None:
+        logger.debug("add_ready_handler")
         self.chat.register_event(ChatEvent.READY, handler)
 
     async def start(self) -> None:
+        logger.debug("start")
         await self.chat
         self.chat.start()
 
@@ -31,5 +34,6 @@ class TwichClient:
     async def _on_ready(self, ready_event: EventData) -> None:
         logger.debug("Bot is ready for work, joining channels")
         await ready_event.chat.join_room(self.targets)
-        logger.debug(f"Connected as: {ready_event.chat.username}")
-        logger.info(f"joined to [bold magenta]{self.targets}[/]")
+        logger.info(
+            f"joined to [bold magenta]{self.targets}[/] as {ready_event.chat.username}"
+        )

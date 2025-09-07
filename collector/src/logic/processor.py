@@ -23,15 +23,22 @@ class MessageProcessor:
         logger.debug("start running")
         while True:
             try:
+                logger.debug("goto receive")
                 msg = await self.source.receive()
             except StopAsyncIteration:
                 logger.debug("message source exhausted")
                 break
             if not self.filter_.is_match(msg):
                 continue
+            else:
+                logger.debug("filtered")
 
             parsed = self.parser.parse(msg)
             if not parsed:
+                logger.debug("not parsed")
                 continue
+            else:
+                logger.debug("parsed")
 
+            logger.debug("saving to repo")
             await self.repository.save(parsed)

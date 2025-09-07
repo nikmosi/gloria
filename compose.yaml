@@ -1,5 +1,6 @@
 services:
   collector:
+    tty: true
     build:
       context: ./collector
       dockerfile: dockerfile
@@ -10,6 +11,8 @@ services:
     environment:
       - PYTHONUNBUFFERED=1
       - TERM=xterm
+      - gloria_target_channels=nikmosi
+      - gloria_log_level=DEBUG
     networks:
       - db_net
       - app_net
@@ -32,7 +35,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '0.50'
+          cpus: "0.50"
           memory: 512M
     command: >
       postgres -c max_connections=1000
@@ -46,7 +49,7 @@ services:
       test:
         [
           "CMD-SHELL",
-          "pg_isready -U ${POSTGRES_USER:-user} -d ${POSTGRES_DB:-collector}"
+          "pg_isready -U ${POSTGRES_USER:-user} -d ${POSTGRES_DB:-collector}",
         ]
       interval: 30s
       timeout: 10s
@@ -61,7 +64,7 @@ services:
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
-      PGADMIN_CONFIG_SERVER_MODE: 'False'
+      PGADMIN_CONFIG_SERVER_MODE: "False"
     volumes:
       - ./.var/pgadmin:/var/lib/pgadmin
     ports:
@@ -75,7 +78,6 @@ networks:
   db_net:
   app_net:
   pgadmin_net:
-
 
 volumes:
   pgadmin:
