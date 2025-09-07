@@ -1,5 +1,5 @@
 # type: ignore
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 
 import pytest
 from dependency_injector.providers import Resource, Singleton
@@ -26,8 +26,10 @@ def test_settings() -> Settings:
     )
 
 
+@patch("asyncio.get_running_loop")
 @pytest.mark.asyncio
-async def test_container_basic_init(test_settings: Settings):
+async def test_container_basic_init(mock_get_running_loop, test_settings: Settings):
+    mock_get_running_loop.return_value = MagicMock()
     container = Container()
 
     # Override settings with test settings
@@ -45,6 +47,7 @@ async def test_container_basic_init(test_settings: Settings):
     # Test singleton providers can be created and injected correctly
     message_source = container.message_source()
     assert message_source is not None
+    mock_get_running_loop.assert_called_once()
 
     name_filter = container.name_filter()
     assert name_filter is not None

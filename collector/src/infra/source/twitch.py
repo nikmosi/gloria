@@ -16,7 +16,7 @@ from logic.messages.source import MessageSource
 class TwitchMessageSource(MessageSource):
     def __init__(self, twitch_client: TwichClient) -> None:
         self._queue: Queue[ChatMessage] = Queue()
-        self._main_loop = asyncio.get_event_loop()
+        self._main_loop = asyncio.get_running_loop()
 
         twitch_client.add_message_handler(self.on_message)
 
