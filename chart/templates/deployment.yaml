@@ -1,0 +1,98 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "gloria-stalker.fullname" . }}
+  labels:
+    {{- include "gloria-stalker.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "gloria-stalker.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+      {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "gloria-stalker.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "gloria-stalker.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: collector
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.collector.port }}
+              protocol: TCP
+          env:
+            - name: PYTHONUNBUFFERED
+              value: "1"
+            - name: TERM
+              value: "xterm"
+            - name: GLORIA_PORT
+              value: {{ .Values.collector.port | quote }}
+            - name: GLORIA_TARGET_CHANNELS
+              value: {{ .Values.collector.targetChannels | quote }}
+            - name: GLORIA_LOG_LEVEL
+              value: {{ .Values.collector.logLevel | quote }}
+            - name: GLORIA_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "gloria-stalker.fullname" . }}
+                  key: clientId
+            - name: GLORIA_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "gloria-stalker.fullname" . }}
+                  key: clientSecret
+            - name: GLORIA_STORAGE_PATH
+              value: {{ .Values.collector.storagePath | quote }}
+            - name: GLORIA_DATABASE
+              value: "postgresql+asyncpg://{{ .Values.postgresql.auth.username }}:$(POSTGRES_PASSWORD)@{{ include "gloria-stalker.fullname" . }}-postgres:5432/{{ .Values.postgresql.auth.database }}"
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "gloria-stalker.fullname" . }}
+                  key: postgresPassword
+          {{- with .Values.extraEnv }}
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: storage
+              mountPath: /app/var/collector
+      volumes:
+        - name: storage
+        {{- if .Values.collector.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.collector.persistence.existingClaim | default (printf "%s-data" (include "gloria-stalker.fullname" .)) }}
+        {{- else }}
+          emptyDir: {}
+        {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

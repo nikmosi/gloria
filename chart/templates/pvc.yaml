@@ -1,0 +1,17 @@
+{{- if and .Values.collector.persistence.enabled (not .Values.collector.persistence.existingClaim) }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "gloria-stalker.fullname" . }}-data
+  labels:
+    {{- include "gloria-stalker.labels" . | nindent 4 }}
+spec:
+  accessModes:
+    {{- toYaml .Values.collector.persistence.accessModes | nindent 4 }}
+  resources:
+    requests:
+      storage: {{ .Values.collector.persistence.size | quote }}
+  {{- if .Values.collector.persistence.storageClass }}
+  storageClassName: {{ .Values.collector.persistence.storageClass | quote }}
+  {{- end }}
+{{- end }}
