@@ -1,4 +1,10 @@
-{ pkgs, lib, config, inputs, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  inputs,
+  ...
+}:
 
 {
   # Environment variables
@@ -37,7 +43,7 @@
     check-added-large-files.enable = true;
     check-yaml = {
       enable = true;
-      excludes = [ "chart/templates/.*" ];
+      excludes = [ ".helm/templates/.*" ];
     };
     convco.enable = true;
     end-of-file-fixer.enable = true;
