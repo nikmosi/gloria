@@ -1,5 +1,8 @@
 .pre-commit-config.yaml
 .var/
+.devenv/
+.devenv.flake.nix
+.direnv/
 # Created by https://www.toptal.com/developers/gitignore/api/python
 # Edit at https://www.toptal.com/developers/gitignore?templates=python
 
