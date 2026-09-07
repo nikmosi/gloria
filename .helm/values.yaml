@@ -39,8 +39,10 @@ service:
   annotations: {}
 
 collector:
+  existingSecret: ""
   port: 8000
   targetChannels: "nikmosi"
+  callbackUrl: "http://localhost/login/confirm"
   logLevel: "DEBUG"
   storagePath: "/app/var/collector/token.json"
   twitch:
@@ -55,7 +57,7 @@ collector:
     existingClaim: ""
 
 postgresql:
-  enabled: true
+  enabled: false
   image:
     repository: postgres
     tag: "16-alpine"

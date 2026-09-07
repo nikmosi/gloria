@@ -14,7 +14,9 @@ spec:
   template:
     metadata:
       annotations:
+        {{- if not .Values.collector.existingSecret }}
         checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+        {{- end }}
       {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
@@ -38,6 +40,10 @@ spec:
             - name: http
               containerPort: {{ .Values.collector.port }}
               protocol: TCP
+          envFrom:
+            - prefix: GLORIA_
+              secretRef:
+                name: {{ .Values.collector.existingSecret | default (include "gloria-stalker.fullname" .) }}
           env:
             - name: PYTHONUNBUFFERED
               value: "1"
@@ -49,25 +55,8 @@ spec:
               value: {{ .Values.collector.targetChannels | quote }}
             - name: GLORIA_LOG_LEVEL
               value: {{ .Values.collector.logLevel | quote }}
-            - name: GLORIA_CLIENT_ID
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "gloria-stalker.fullname" . }}
-                  key: clientId
-            - name: GLORIA_CLIENT_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "gloria-stalker.fullname" . }}
-                  key: clientSecret
             - name: GLORIA_STORAGE_PATH
               value: {{ .Values.collector.storagePath | quote }}
-            - name: GLORIA_DATABASE
-              value: "postgresql+asyncpg://{{ .Values.postgresql.auth.username }}:$(POSTGRES_PASSWORD)@{{ include "gloria-stalker.fullname" . }}-postgres:5432/{{ .Values.postgresql.auth.database }}"
-            - name: POSTGRES_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "gloria-stalker.fullname" . }}
-                  key: postgresPassword
           {{- with .Values.extraEnv }}
             {{- toYaml . | nindent 12 }}
           {{- end }}
