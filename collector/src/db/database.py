@@ -26,10 +26,9 @@ class DataBase:
         session: AsyncSession = self.session_factory()
         try:
             yield session
-        except Exception as e:
+        except Exception:
             await session.rollback()
-            logger.warning("got error in session context. rollback changes.")
-            logger.error(e)
+            logger.exception("Database session error; rolled back transaction.")
             raise
         finally:
             await session.aclose()

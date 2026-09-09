@@ -45,7 +45,7 @@ async def test_container_basic_init(mock_get_running_loop, test_settings: Settin
     assert db is not None
 
     # Test singleton providers can be created and injected correctly
-    message_source = container.message_source()
+    message_source = await container.message_source()
     assert message_source is not None
     mock_get_running_loop.assert_called_once()
 
@@ -58,7 +58,7 @@ async def test_container_basic_init(mock_get_running_loop, test_settings: Settin
     repository = container.repository()
     assert repository is not None
 
-    processor = container.processor()
+    processor = await container.processor()
     assert processor is not None
 
 

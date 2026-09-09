@@ -14,16 +14,15 @@ from logic.processor import MessageProcessor
 @inject
 async def main(processor: MessageProcessor = Provide[Container.processor]) -> None:
     try:
-        logger.debug("[bold red]run[/]")
+        logger.info("Starting collector service")
         await processor.run()
     finally:
-        logger.debug("[bold red]exit[/]")
+        logger.info("Collector service finished")
 
 
 async def wire_container() -> None:
     container = await init_container()
     container.wire(modules=[__name__])
-    logger.debug("run main")
     await main()
 
 

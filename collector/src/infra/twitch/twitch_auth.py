@@ -51,8 +51,8 @@ async def authenticate(settings: Settings) -> Twitch:
 
         auth_service.subscribe_on_complete(lambda: setattr(server, "should_exit", True))
 
-        logger.info("run uvicorn")
+        logger.info(f"Starting authentication server on port {settings.port}")
         await server.serve()
 
-    logger.info("authenticate [bold green]complete[/]")
+    logger.info("Twitch authentication completed successfully")
     return twitch

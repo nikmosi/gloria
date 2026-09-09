@@ -14,7 +14,7 @@ services:
       - PYTHONUNBUFFERED=1
       - TERM=xterm
       - gloria_target_channels=nikmosi
-      - gloria_log_level=DEBUG
+      - gloria_log_level=INFO
     networks:
       - db_net
       - app_net

@@ -60,7 +60,7 @@ collector:
   port: 8000
   targetChannels: "nikmosi"
   callbackUrl: "http://localhost/login/confirm"
-  logLevel: "DEBUG"
+  logLevel: "INFO"
   storagePath: "/app/var/collector/token.json"
   twitch:
     clientId: "dummy-client-id"

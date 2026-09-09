@@ -7,7 +7,8 @@ from twitchAPI.type import AuthScope
 
 
 class LogSettings(BaseModel):
-    level: str = "DEBUG"
+    level: str = "INFO"
+    json_format: bool = False
 
 
 class Settings(BaseSettings):

@@ -20,25 +20,28 @@ class MessageProcessor:
         self.repository: MessageRepository = repository
 
     async def run(self) -> None:
-        logger.debug("start running")
+        logger.info("Message processor started")
         while True:
             try:
-                logger.debug("goto receive")
                 msg = await self.source.receive()
             except StopAsyncIteration:
-                logger.debug("message source exhausted")
+                logger.info("Message source exhausted, processor stopping")
                 break
+
             if not self.filter_.is_match(msg):
                 continue
-            else:
-                logger.debug("filtered")
+
+            logger.info(f"Received target message from '{msg.author}': {msg.text}")
 
             parsed = self.parser.parse(msg)
             if not parsed:
-                logger.debug("not parsed")
+                logger.warning(
+                    f"Failed to parse target message from '{msg.author}': {msg.text}"
+                )
                 continue
-            else:
-                logger.debug("parsed")
 
-            logger.debug("saving to repo")
             await self.repository.save(parsed)
+            logger.info(
+                f"Saved stats for '{parsed.nickname}': {parsed.points} points, "
+                f"{parsed.hours}h, rank '{parsed.rank.name}'"
+            )

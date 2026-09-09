@@ -12,8 +12,8 @@ def raw_messages(faker: Faker) -> list[RawMessage]:
     base_time = datetime.now()
     return [
         RawMessage(
-            text=f"Test message #{i+1} {faker.text(max_nb_chars=100)}",
-            author=f"user{i%5}",
+            text=f"Test message #{i + 1} {faker.text(max_nb_chars=100)}",
+            author=f"user{i % 5}",
             date=base_time - timedelta(minutes=i),
         )
         for i in range(15)

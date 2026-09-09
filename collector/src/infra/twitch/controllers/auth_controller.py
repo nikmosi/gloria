@@ -23,7 +23,7 @@ class AuthController(Controller):
         state_: Annotated[str, Parameter(query="state")],
         auth_service: AuthService,
     ) -> Response[str]:
-        logger.debug("compliting auth")
+        logger.debug("completing auth")
         msg: str = "Auth complete. You can close this tab."
         exit_code = status_codes.HTTP_200_OK
         try:
@@ -39,6 +39,6 @@ class AuthController(Controller):
             exit_code = status_codes.HTTP_400_BAD_REQUEST
         else:
             auth_service.complete()
-            logger.info("complete auth")
+            logger.info("Twitch user authorization successfully completed")
         # FIX: Literal[Auth ...] instead str type
         return Response(str(msg), status_code=exit_code)

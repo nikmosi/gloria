@@ -28,23 +28,21 @@ from logic.processor import MessageProcessor
 
 @contextlib.asynccontextmanager
 async def _init_twitch(settings: Settings) -> AsyncGenerator[Twitch, None]:
-    logger.debug("initing twitch")
     twitch = await authenticate(settings)
-    logger.info("inited twitch")
+    logger.info("Twitch client initialized")
     try:
         yield twitch
     finally:
-        await twitch.close()  # type: ignore
+        await twitch.close()
 
 
 @contextlib.asynccontextmanager
 async def _init_twitch_client(
     twitch: Twitch, settings: Settings
 ) -> AsyncGenerator[TwichClient, None]:
-    logger.debug("Creating chat")
     client = TwichClient(twitch, settings.target_channels)
     await client.start()
-    logger.info("Created chat")
+    logger.info("Twitch chat client initialized")
     try:
         yield client
     finally:

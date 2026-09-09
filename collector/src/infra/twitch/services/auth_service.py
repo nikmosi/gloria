@@ -36,7 +36,7 @@ class AuthService:
         token, refresh = cast(
             tuple[str, str], await self.auth.authenticate(user_token=code)
         )
-        logger.warning(self.storage_path.resolve())
+        logger.debug(f"Saved authentication token to {self.storage_path.resolve()}")
         with open(self.storage_path, "w") as _f:
             json.dump({"token": token, "refresh": refresh}, _f)
         await self.twitch.set_user_authentication(token, self.user_scope, refresh)
