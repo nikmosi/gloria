@@ -38,6 +38,23 @@ service:
   port: 8000
   annotations: {}
 
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+  hosts:
+    - host: gloria.local
+      paths:
+        - path: /login/confirm
+          pathType: Prefix
+        - path: /login
+          pathType: Prefix
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
+
+
 collector:
   existingSecret: ""
   port: 8000
