@@ -36,6 +36,11 @@
     test-collector.exec = "cd collector && uv run pytest";
     lint-collector.exec = "cd collector && uv run ruff check . && uv run ruff format --check .";
     check-all.exec = "lint-collector && cd collector && uv run mypy src";
+    bump.exec = "cd collector && uv run bump-my-version \"$@\"";
+    bump-show.exec = "cd collector && uv run bump-my-version show-bump";
+    bump-patch.exec = "cd collector && uv run bump-my-version bump patch \"$@\"";
+    bump-minor.exec = "cd collector && uv run bump-my-version bump minor \"$@\"";
+    bump-major.exec = "cd collector && uv run bump-my-version bump major \"$@\"";
   };
 
   # Git hooks integration

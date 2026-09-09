@@ -31,6 +31,7 @@ asyncio_default_fixture_loop_scope = "session"
 [dependency-groups]
 dev = [
     "aiosqlite>=0.21.0",
+    "bump-my-version>=1.5.1",
     "coverage>=7.9.1",
     "mypy>=1.15.0",
     "pytest>=8.3.5",
@@ -38,6 +39,22 @@ dev = [
     "pytest-cov>=6.2.1",
     "pytest-timeout>=2.4.0",
 ]
+
+[tool.bumpversion]
+commit = true
+message = "chore: bump version {current_version} → {new_version}"
+tag = true
+tag_name = "v{new_version}"
+pre_commit_hooks = ["uv lock"]
+
+[[tool.bumpversion.files]]
+filename = "../.helm/Chart.yaml"
+search = 'appVersion: "{current_version}"'
+replace = 'appVersion: "{new_version}"'
+
+[[tool.bumpversion.files]]
+filename = "uv.lock"
+
 
 [tool.mypy]
 check_untyped_defs = true
