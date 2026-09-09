@@ -1,6 +1,8 @@
+---
 services:
   collector:
     tty: true
+    image: ${DOCKER_REGISTRY:-zot.xinfra.ru}/gloria:${TAG:-latest}
     build:
       context: ./collector
       dockerfile: dockerfile
@@ -49,7 +51,7 @@ services:
       test:
         [
           "CMD-SHELL",
-          "pg_isready -U ${POSTGRES_USER:-user} -d ${POSTGRES_DB:-collector}",
+          "pg_isready -U ${POSTGRES_USER:-user} -d ${POSTGRES_DB:-collector}"
         ]
       interval: 30s
       timeout: 10s
@@ -78,6 +80,7 @@ networks:
   db_net:
   app_net:
   pgadmin_net:
+
 
 volumes:
   pgadmin:
