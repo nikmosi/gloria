@@ -49,14 +49,6 @@ spec:
               value: "1"
             - name: TERM
               value: "xterm"
-            - name: GLORIA_PORT
-              value: {{ .Values.collector.port | quote }}
-            - name: GLORIA_TARGET_CHANNELS
-              value: {{ .Values.collector.targetChannels | quote }}
-            - name: GLORIA_LOG_LEVEL
-              value: {{ .Values.collector.logLevel | quote }}
-            - name: GLORIA_STORAGE_PATH
-              value: {{ .Values.collector.storagePath | quote }}
           {{- with .Values.extraEnv }}
             {{- toYaml . | nindent 12 }}
           {{- end }}

@@ -73,41 +73,6 @@ collector:
     storageClass: ""
     existingClaim: ""
 
-postgresql:
-  enabled: false
-  image:
-    repository: postgres
-    tag: "16-alpine"
-    pullPolicy: IfNotPresent
-  auth:
-    username: user
-    password: "123"
-    database: collector
-  podSecurityContext:
-    fsGroup: 999
-    runAsNonRoot: true
-    runAsUser: 999
-    seccompProfile:
-      type: RuntimeDefault
-  securityContext:
-    allowPrivilegeEscalation: false
-    capabilities:
-      drop:
-        - ALL
-  persistence:
-    enabled: true
-    accessModes:
-      - ReadWriteOnce
-    size: 2Gi
-    storageClass: ""
-  resources:
-    limits:
-      cpu: 500m
-      memory: 512Mi
-    requests:
-      cpu: 100m
-      memory: 256Mi
-
 resources:
   limits:
     cpu: 500m
