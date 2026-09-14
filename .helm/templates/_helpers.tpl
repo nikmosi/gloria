@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "gloria-stalker.name" -}}
+{{- define "gloria.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "gloria-stalker.fullname" -}}
+{{- define "gloria.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "gloria-stalker.chart" -}}
+{{- define "gloria.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "gloria-stalker.labels" -}}
-helm.sh/chart: {{ include "gloria-stalker.chart" . }}
-{{ include "gloria-stalker.selectorLabels" . }}
+{{- define "gloria.labels" -}}
+helm.sh/chart: {{ include "gloria.chart" . }}
+{{ include "gloria.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,25 +45,25 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "gloria-stalker.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "gloria-stalker.name" . }}
+{{- define "gloria.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "gloria.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 PostgreSQL selector labels
 */}}
-{{- define "gloria-stalker.postgresSelectorLabels" -}}
-app.kubernetes.io/name: {{ include "gloria-stalker.name" . }}-postgres
+{{- define "gloria.postgresSelectorLabels" -}}
+app.kubernetes.io/name: {{ include "gloria.name" . }}-postgres
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 PostgreSQL labels
 */}}
-{{- define "gloria-stalker.postgresLabels" -}}
-helm.sh/chart: {{ include "gloria-stalker.chart" . }}
-{{ include "gloria-stalker.postgresSelectorLabels" . }}
+{{- define "gloria.postgresLabels" -}}
+helm.sh/chart: {{ include "gloria.chart" . }}
+{{ include "gloria.postgresSelectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -73,9 +73,9 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "gloria-stalker.serviceAccountName" -}}
+{{- define "gloria.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "gloria-stalker.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "gloria.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

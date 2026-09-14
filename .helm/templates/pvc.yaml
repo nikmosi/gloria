@@ -2,9 +2,9 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: {{ include "gloria-stalker.fullname" . }}-data
+  name: {{ include "gloria.fullname" . }}-data
   labels:
-    {{- include "gloria-stalker.labels" . | nindent 4 }}
+    {{- include "gloria.labels" . | nindent 4 }}
 spec:
   accessModes:
     {{- toYaml .Values.collector.persistence.accessModes | nindent 4 }}

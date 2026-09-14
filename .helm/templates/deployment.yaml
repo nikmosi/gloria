@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "gloria-stalker.fullname" . }}
+  name: {{ include "gloria.fullname" . }}
   labels:
-    {{- include "gloria-stalker.labels" . | nindent 4 }}
+    {{- include "gloria.labels" . | nindent 4 }}
 spec:
   replicas: {{ .Values.replicaCount }}
   strategy:
     type: Recreate
   selector:
     matchLabels:
-      {{- include "gloria-stalker.selectorLabels" . | nindent 6 }}
+      {{- include "gloria.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       annotations:
@@ -21,13 +21,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "gloria-stalker.selectorLabels" . | nindent 8 }}
+        {{- include "gloria.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "gloria-stalker.serviceAccountName" . }}
+      serviceAccountName: {{ include "gloria.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -43,7 +43,7 @@ spec:
           envFrom:
             - prefix: GLORIA_
               secretRef:
-                name: {{ .Values.collector.existingSecret | default (include "gloria-stalker.fullname" .) }}
+                name: {{ .Values.collector.existingSecret | default (include "gloria.fullname" .) }}
           env:
             - name: PYTHONUNBUFFERED
               value: "1"
@@ -61,7 +61,7 @@ spec:
         - name: storage
         {{- if .Values.collector.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .Values.collector.persistence.existingClaim | default (printf "%s-data" (include "gloria-stalker.fullname" .)) }}
+            claimName: {{ .Values.collector.persistence.existingClaim | default (printf "%s-data" (include "gloria.fullname" .)) }}
         {{- else }}
           emptyDir: {}
         {{- end }}

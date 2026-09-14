@@ -2,9 +2,9 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "gloria-stalker.fullname" . }}-migration
+  name: {{ include "gloria.fullname" . }}-migration
   labels:
-    {{- include "gloria-stalker.labels" . | nindent 4 }}
+    {{- include "gloria.labels" . | nindent 4 }}
     app.kubernetes.io/component: migration
   annotations:
     "helm.sh/hook": pre-install,pre-upgrade
@@ -19,7 +19,7 @@ spec:
   template:
     metadata:
       labels:
-        {{- include "gloria-stalker.selectorLabels" . | nindent 8 }}
+        {{- include "gloria.selectorLabels" . | nindent 8 }}
         app.kubernetes.io/component: migration
       {{- with .Values.podAnnotations }}
       annotations:
@@ -31,7 +31,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "gloria-stalker.serviceAccountName" . }}
+      serviceAccountName: {{ include "gloria.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -50,7 +50,7 @@ spec:
           envFrom:
             - prefix: GLORIA_
               secretRef:
-                name: {{ .Values.collector.existingSecret | default (include "gloria-stalker.fullname" .) }}
+                name: {{ .Values.collector.existingSecret | default (include "gloria.fullname" .) }}
           env:
             - name: PYTHONUNBUFFERED
               value: "1"
