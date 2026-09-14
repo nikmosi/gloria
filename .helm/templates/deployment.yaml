@@ -25,6 +25,7 @@ spec:
       labels:
         {{- include "gloria.selectorLabels" . | nindent 8 }}
     spec:
+      enableServiceLinks: false
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -47,6 +48,8 @@ spec:
               secretRef:
                 name: {{ .Values.collector.existingSecret | default (include "gloria.fullname" .) }}
           env:
+            - name: GLORIA_PORT
+              value: {{ .Values.collector.port | quote }}
             - name: PYTHONUNBUFFERED
               value: "1"
             - name: TERM
