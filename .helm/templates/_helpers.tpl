@@ -51,26 +51,6 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
-PostgreSQL selector labels
-*/}}
-{{- define "gloria.postgresSelectorLabels" -}}
-app.kubernetes.io/name: {{ include "gloria.name" . }}-postgres
-app.kubernetes.io/instance: {{ .Release.Name }}
-{{- end }}
-
-{{/*
-PostgreSQL labels
-*/}}
-{{- define "gloria.postgresLabels" -}}
-helm.sh/chart: {{ include "gloria.chart" . }}
-{{ include "gloria.postgresSelectorLabels" . }}
-{{- if .Chart.AppVersion }}
-app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
-{{- end }}
-app.kubernetes.io/managed-by: {{ .Release.Service }}
-{{- end }}
-
-{{/*
 Create the name of the service account to use
 */}}
 {{- define "gloria.serviceAccountName" -}}
